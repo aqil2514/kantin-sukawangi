@@ -4,6 +4,14 @@ import "./globals.css";
 import Navbar from "@/components/Layouts/Navbar";
 import Footer from "@/components/Layouts/Footer";
 
+export const metadata: Metadata = {
+  title: {
+    default:"Kantin Sukawangi",
+    template: "%s | Kantin Sukawangi"
+  },
+  description: "Kantin Sukawangi",
+};
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -31,11 +39,6 @@ const loraFont = Lora({
   subsets: ["latin"],
   weight: "400",
 });
-
-export const metadata: Metadata = {
-  title: "Kantin Sukawangi",
-  description: "Kantin Sukawangi",
-};
 
 export default function RootLayout({
   children,
