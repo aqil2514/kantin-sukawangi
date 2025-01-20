@@ -245,7 +245,7 @@ export default function Checkout() {
                 {cartItems.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-center justify-between py-4 border-b"
+                    className="flex md:flex-row flex-col items-center justify-start gap-2 md:gap-0 md:justify-between py-4 border-b"
                   >
                     <div className="flex items-center space-x-4">
                       <Image

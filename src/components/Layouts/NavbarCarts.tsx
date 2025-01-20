@@ -200,7 +200,7 @@ export default function NavbarCarts() {
               {cartItems.map((item) => (
                 <div
                   key={item.id}
-                  className="flex justify-between items-center p-4 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100 transition-all duration-300"
+                  className="flex flex-col md:flex-row gap-2 md:gap-0 justify-between items-center p-4 bg-gray-50 rounded-lg shadow-sm hover:bg-gray-100 transition-all duration-300"
                 >
                   <div className="flex items-center gap-4">
                     {/* Gambar Produk */}
