@@ -54,46 +54,45 @@ namespace Product {
   }
 
   /**
- * Context props yang digunakan untuk mengelola data produk dalam aplikasi.
- * @interface ProductsContextProps
- */
-export interface ProductsContextProps {
-  /**
-   * Daftar produk yang akan ditampilkan dalam aplikasi.
-   * @type {Product.ProductAttributes[]}
+   * Context props yang digunakan untuk mengelola data produk dalam aplikasi.
+   * @interface ProductsContextProps
    */
-  initProducts: Product.ProductAttributes[];
-  
-  /**
-   * Daftar produk yang akan ditampilkan dalam aplikasi.
-   * @type {Product.ProductAttributes[]}
-   */
-  products: Product.ProductAttributes[];
+  export interface ProductsContextProps {
+    /**
+     * Daftar produk yang akan ditampilkan dalam aplikasi.
+     * @type {Product.ProductAttributes[]}
+     */
+    initProducts: Product.ProductAttributes[];
+
+    /**
+     * Daftar produk yang akan ditampilkan dalam aplikasi.
+     * @type {Product.ProductAttributes[]}
+     */
+    products: Product.ProductAttributes[];
+
+    /**
+     * Fungsi untuk memperbarui daftar produk.
+     * @type {React.Dispatch<SetStateAction<Product.ProductAttributes[]>>}
+     */
+    setProducts: React.Dispatch<SetStateAction<Product.ProductAttributes[]>>;
+  }
 
   /**
-   * Fungsi untuk memperbarui daftar produk.
-   * @type {React.Dispatch<SetStateAction<Product.ProductAttributes[]>>}
+   * Props untuk provider produk yang digunakan untuk membungkus komponen dan menyediakan akses ke daftar produk.
+   * @interface ProductsProviderProps
    */
-  setProducts: React.Dispatch<SetStateAction<Product.ProductAttributes[]>>;
-}
+  export interface ProductsProviderProps {
+    /**
+     * Komponen anak yang akan dibungkus oleh provider.
+     * @type {React.ReactNode}
+     */
+    children: React.ReactNode;
 
-/**
- * Props untuk provider produk yang digunakan untuk membungkus komponen dan menyediakan akses ke daftar produk.
- * @interface ProductsProviderProps
- */
-export interface ProductsProviderProps {
-  /**
-   * Komponen anak yang akan dibungkus oleh provider.
-   * @type {React.ReactNode}
-   */
-  children: React.ReactNode;
-
-  /**
-   * Daftar produk yang akan digunakan sebagai data sementara. Nantinya, daftar produk ini akan
-   * diambil dari server, tetapi untuk saat ini menggunakan data dummy.
-   * @type {Product.ProductAttributes[]}
-   */
-  productsLists: Product.ProductAttributes[];
-}
-
+    /**
+     * Daftar produk yang akan digunakan sebagai data sementara. Nantinya, daftar produk ini akan
+     * diambil dari server, tetapi untuk saat ini menggunakan data dummy.
+     * @type {Product.ProductAttributes[]}
+     */
+    productsLists: Product.ProductAttributes[];
+  }
 }
