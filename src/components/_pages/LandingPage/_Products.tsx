@@ -4,16 +4,12 @@ import { products } from "./misc";
 import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useStore } from "@/lib/store";
-import { useEffect } from "react";
+import { useCartStore } from "@/lib/store-cart";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 export default function Products() {
-  const { cartItems, addToCart, increaseCartItem, decreaseCartItem } = useStore();
+  const { cartItems, addToCart, increaseCartItem, decreaseCartItem } = useCartStore();
 
-  useEffect(() => {
-    console.log(cartItems);
-  }, [cartItems]);
   return (
     <div className="min-h-screen bg-slate-200 py-4 px-8">
       <h3 className="text-center font-lora font bold text-red-500 text-xl md:text-3xl lg:text-4xl font-bold">

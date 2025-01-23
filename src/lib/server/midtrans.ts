@@ -16,3 +16,11 @@ export const midtrans = new midtransClient.Snap({
   serverKey: midtransCredentials.serverKey,
   clientKey: midtransCredentials.clientKey,
 });
+
+export const midtransCoreApi = new midtransClient.CoreApi(
+  {
+    isProduction: false,
+    serverKey: midtransCredentials.serverKey,
+    clientKey: midtransCredentials.clientKey,
+  }
+)

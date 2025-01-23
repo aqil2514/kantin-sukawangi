@@ -279,5 +279,185 @@ declare module "midtrans-client" {
      * @example "https://payment.midtrans.com/..."
      */
     redirect_url: string;
+    
+    /**
+     * Untuk menampilkan order ID demi cek status pesanan.
+     * @example "12sdsd-c5x2sq-xcxc"
+     */
+    token_id: string;
   }
+
+  declare module "midtrans-client" {
+    export class CoreApi {
+      constructor(config: CoreApiConfig);
+  
+      transaction: {
+        /**
+         * Mendapatkan status transaksi berdasarkan Order ID.
+         * @param orderId - ID dari pesanan yang ingin diperiksa statusnya.
+         */
+        status(orderId: string): Promise<TransactionStatusResponse>;
+  
+        /**
+         * Menangani notifikasi transaksi yang dikirimkan melalui webhook Midtrans.
+         * @param payload - Data payload yang diterima dari webhook notifikasi Midtrans.
+         */
+        notification(payload: Record<string, unknown>): Promise<TransactionStatusResponse>;
+  
+        /**
+         * Membatalkan transaksi yang masih aktif berdasarkan Order ID.
+         * @param orderId - ID dari pesanan yang ingin dibatalkan.
+         */
+        cancel(orderId: string): Promise<TransactionCancelResponse>;
+  
+        /**
+         * Menyetujui transaksi kartu kredit yang berstatus challenge.
+         * @param orderId - ID dari pesanan yang ingin disetujui.
+         */
+        approve(orderId: string): Promise<TransactionApproveResponse>;
+  
+        /**
+         * Menolak transaksi kartu kredit yang berstatus challenge.
+         * @param orderId - ID dari pesanan yang ingin ditolak.
+         */
+        deny(orderId: string): Promise<TransactionDenyResponse>;
+      };
+    }
+  
+    export interface CoreApiConfig {
+      /**
+       * Menentukan apakah mode yang digunakan adalah produksi (true) atau sandbox (false).
+       */
+      isProduction: boolean;
+  
+      /**
+       * Kunci server yang digunakan untuk otentikasi dengan Midtrans.
+       */
+      serverKey: string;
+  
+      /**
+       * Kunci client opsional yang digunakan untuk beberapa fitur tertentu.
+       */
+      clientKey?: string;
+    }
+  
+    export interface TransactionStatusResponse {
+      /**
+       * Kode status dari transaksi.
+       */
+      status_code: string;
+  
+      /**
+       * Pesan status transaksi.
+       */
+      status_message: string;
+  
+      /**
+       * ID transaksi yang diberikan oleh Midtrans.
+       */
+      transaction_id: string;
+  
+      /**
+       * ID pesanan yang digunakan dalam transaksi.
+       */
+      order_id: string;
+  
+      /**
+       * Jumlah total pembayaran dalam transaksi.
+       */
+      gross_amount: string;
+  
+      /**
+       * Jenis pembayaran yang digunakan dalam transaksi.
+       */
+      payment_type: string;
+  
+      /**
+       * Waktu transaksi terjadi.
+       */
+      transaction_time: string;
+  
+      /**
+       * Status transaksi (misalnya: pending, success, failed).
+       */
+      transaction_status: string;
+  
+      /**
+       * Status fraud dalam transaksi (misalnya: accept, challenge, deny).
+       */
+      fraud_status: string;
+  
+      /**
+       * Mata uang yang digunakan dalam transaksi.
+       */
+      currency: string;
+  
+      /**
+       * Waktu settlement transaksi (jika tersedia).
+       */
+      settlement_time?: string;
+  
+      /**
+       * Kode persetujuan transaksi (jika tersedia).
+       */
+      approval_code?: string;
+  
+      /**
+       * Kunci tanda tangan untuk validasi keamanan.
+       */
+      signature_key: string;
+    }
+  
+    export interface TransactionCancelResponse {
+      /**
+       * Kode status dari hasil pembatalan.
+       */
+      status_code: string;
+  
+      /**
+       * Pesan status hasil pembatalan.
+       */
+      status_message: string;
+  
+      /**
+       * ID pesanan yang dibatalkan.
+       */
+      order_id: string;
+    }
+  
+    export interface TransactionApproveResponse {
+      /**
+       * Kode status dari hasil persetujuan.
+       */
+      status_code: string;
+  
+      /**
+       * Pesan status hasil persetujuan.
+       */
+      status_message: string;
+  
+      /**
+       * ID pesanan yang disetujui.
+       */
+      order_id: string;
+    }
+  
+    export interface TransactionDenyResponse {
+      /**
+       * Kode status dari hasil penolakan.
+       */
+      status_code: string;
+  
+      /**
+       * Pesan status hasil penolakan.
+       */
+      status_message: string;
+  
+      /**
+       * ID pesanan yang ditolak.
+       */
+      order_id: string;
+    }
+  }
+  
 }

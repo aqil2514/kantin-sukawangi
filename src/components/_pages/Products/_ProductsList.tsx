@@ -5,13 +5,13 @@ import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { useProducts } from "./Provider";
 import { formatCurrency } from "@/lib/utils";
-import { useStore } from "@/lib/store";
+import { useCartStore } from "@/lib/store-cart";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
 export default function ProductsLists() {
   const { products, initProducts, setProducts } = useProducts();
   const { cartItems, addToCart, decreaseCartItem, increaseCartItem } =
-    useStore();
+    useCartStore();
   const [currentPage, setCurrentPage] = useState(1); // Current page
   const productsPerPage = 6; // Products per page
 

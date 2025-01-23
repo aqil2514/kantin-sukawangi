@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { midtrans } from "@/lib/server/midtrans";
+import { midtrans, midtransCoreApi } from "@/lib/server/midtrans";
 import { TransactionParameters, TransactionResponse } from "midtrans-client";
 import { randomUUID } from "crypto";
 import { validator } from "@/lib/server/validations";
@@ -26,6 +26,8 @@ export async function POST(req: NextRequest) {
     // Membuat transaksi menggunakan Midtrans API
     const midtransResponse = await midtrans.createTransaction(parameter);
 
+    midtransResponse.token_id = body.order_id;
+
     const response: General.ApiResponse<TransactionResponse> = {
       message: "Transaksi berhasil dibuat",
       data: midtransResponse,
@@ -39,6 +41,58 @@ export async function POST(req: NextRequest) {
       { error: "Transaction creation failed" },
       { status: 500 }
     );
+  }
+}
+
+export async function GET(req: NextRequest) {
+  const url = new URL(req.nextUrl);
+  const orderId = url.searchParams.get("orderId");
+
+  if (!orderId) {
+    return NextResponse.json(
+      {
+        error: "Order ID tidak ada",
+      },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const checkTransaction = await midtransCoreApi.transaction.status(orderId);
+
+    const TransactionStatus = (status: string) => {
+      const statusMessages: Record<string, string> = {
+        pending: "Pembayaran sedang menunggu penyelesaian.",
+        settlement: "Pembayaran telah berhasil diselesaikan.",
+        capture:
+          "Pembayaran telah berhasil ditangkap. (Metode: kartu kredit dengan otorisasi capture)",
+        deny: "Pembayaran ditolak oleh pihak bank atau sistem.",
+        cancel: "Pembayaran telah dibatalkan.",
+        expire: "Pembayaran telah kedaluwarsa.",
+        refund: "Pembayaran telah dikembalikan.",
+      };
+
+      return statusMessages[status];
+    };
+
+    const response: General.ApiResponse<Transaction.CheckTransactionStatus> = {
+      message: `${TransactionStatus(checkTransaction.transaction_status)}`,
+      data: {
+        transaction_id: checkTransaction.transaction_id,
+        transaction_status: checkTransaction.transaction_status,
+        status_message: checkTransaction.status_message,
+      },
+    };
+
+    return NextResponse.json(response, { status: 200 });
+  } catch (error) {
+    const response: General.ApiResponse = {
+      message: "Transaksi belum dibuat atau tidak ada",
+    };
+
+    console.error(error);
+
+    return NextResponse.json(response, { status: 404 });
   }
 }
 

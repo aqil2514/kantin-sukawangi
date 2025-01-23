@@ -1,12 +1,12 @@
 "use client";
 
-import { useStore } from "@/lib/store";
 import React from "react";
 import NoProducts from "./NoProducts";
 import WithProducts from "./WithProducts";
+import { useCartStore } from "@/lib/store-cart";
 
 export default function Checkout() {
-  const { cartItems } = useStore();
+  const { cartItems } = useCartStore();
 
   return (
     <div className="px-4 pt-40 pb-12 min-h-screen bg-gray-50">

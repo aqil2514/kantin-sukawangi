@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { useStore } from "@/lib/store";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import { FaRegCopy, FaTrashAlt } from "react-icons/fa";
@@ -15,6 +14,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { FaCircleInfo } from "react-icons/fa6";
+import { useCartStore } from "@/lib/store-cart";
 
 type ToastFunction = (options: {
   variant: "destructive" | "success" | "info";
@@ -27,14 +27,24 @@ type ToastFunction = (options: {
 export default function WithProducts() {
   const [token, setToken] = useState<string>("");
   const [redirectUrl, seteRedirectUrl] = useState<string>("");
+  const [orderId, setOrderId] = useState<string>("");
+
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
       <ProductList token={token} />
 
       {token ? (
-        <PaymentLink token={token} redirectUrl={redirectUrl} />
+        <PaymentLink
+          token={token}
+          redirectUrl={redirectUrl}
+          orderId={orderId}
+        />
       ) : (
-        <PaymentForm setToken={setToken} setRedirectUrl={seteRedirectUrl} />
+        <PaymentForm
+          setToken={setToken}
+          setRedirectUrl={seteRedirectUrl}
+          setOrderId={setOrderId}
+        />
       )}
     </div>
   );
@@ -42,7 +52,7 @@ export default function WithProducts() {
 
 const ProductList = ({ token }: { token: string }) => {
   const { cartItems, decreaseCartItem, increaseCartItem, removeCartItem } =
-    useStore();
+    useCartStore();
 
   const calculateTotal = () =>
     cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -115,15 +125,16 @@ const ProductList = ({ token }: { token: string }) => {
   );
 };
 
-
 const PaymentForm = ({
   setToken,
   setRedirectUrl,
+  setOrderId,
 }: {
   setToken: React.Dispatch<SetStateAction<string>>;
   setRedirectUrl: React.Dispatch<SetStateAction<string>>;
+  setOrderId: React.Dispatch<SetStateAction<string>>;
 }) => {
-  const { cartItems } = useStore();
+  const { cartItems } = useCartStore();
   const {
     register,
     handleSubmit,
@@ -147,9 +158,11 @@ const PaymentForm = ({
 
       const token = res.data.data?.token;
       const redirectUrl = res.data.data?.redirect_url;
+      const orderId = res.data.data?.token_id;
 
       setToken(token as string);
       setRedirectUrl(redirectUrl as string);
+      setOrderId(orderId as string);
     } catch (error) {
       errorHandling(error, toast as ToastFunction);
     }
@@ -199,99 +212,99 @@ const PaymentForm = ({
   );
 };
 
-// const PaymentLink = ({
-//   token,
-//   redirectUrl,
-// }: {
-//   token: string;
-//   redirectUrl: string;
-// }) => {
-//   return (
-//     <div className="bg-white p-8 rounded-lg shadow-lg max-w-md mx-auto text-gray-800">
-//       <h2 className="text-2xl font-bold mb-6">
-//         Link Pembayaran Berhasil Dibuat
-//       </h2>
-//       <p className="text-gray-600 mb-6 leading-relaxed">
-//         Klik tombol di bawah untuk melanjutkan ke halaman pembayaran, atau
-//         gunakan token pembayaran untuk menyelesaikan transaksi di lain waktu.
-//       </p>
-//       <a
-//         href={redirectUrl}
-//         target="_blank"
-//         rel="noopener noreferrer"
-//         className="block w-full text-center bg-blue-600 text-white font-medium py-3 rounded-lg hover:bg-blue-700 transition"
-//       >
-//         Lanjutkan ke Pembayaran
-//       </a>
-//       <div className="mt-6 p-4 bg-gray-100 rounded-lg">
-//         <div className="flex justify-between items-center mb-4">
-//           <div className="flex items-center gap-2">
-//             <h3 className="text-sm font-semibold">Token Pembayaran</h3>
-//             <Popover>
-//               <PopoverTrigger>
-//                 <FaCircleInfo className="text-gray-500 hover:text-gray-700 cursor-pointer" />
-//               </PopoverTrigger>
-//               <PopoverContent>
-//                 Simpan token ini jika Anda ingin melakukan pembayaran di lain
-//                 waktu.
-//               </PopoverContent>
-//             </Popover>
-//           </div>
-//         </div>
-//         <div className="flex items-center gap-2 bg-white p-2 rounded border border-gray-300">
-//           <p className="text-gray-800 font-mono text-sm break-all flex-1">
-//             {token}
-//           </p>
-//           <Button
-//             variant="ghost"
-//             onClick={() => {
-//               navigator.clipboard.writeText(token);
-//               toast({
-//                 title: "Berhasil disalin",
-//                 description: "Token Pembayaran telah disalin",
-//               });
-//             }}
-//           >
-//             <FaRegCopy className="mr-2" />
-//             Salin
-//           </Button>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
 const PaymentLink = ({
   token,
   redirectUrl,
+  orderId,
 }: {
   token: string;
   redirectUrl: string;
+  orderId: string;
 }) => {
+  const checkStatusHandler = async () => {
+    try {
+      const res = await axios.get<
+        General.ApiResponse<Transaction.CheckTransactionStatus>
+      >("/api/checkout", {
+        params: { orderId },
+      });
+
+      toast({
+        title: "Status Transaksi",
+        description: res.data.message,
+      });
+    } catch (error) {
+      if (isAxiosError(error)) {
+        const status = error.status;
+        const data = error.response?.data as General.ApiResponse;
+
+        if (status === 404) {
+          toast({
+            variant: "destructive",
+            title: "Tidak Ditemukan",
+            description: data.message,
+          });
+        } else {
+          toast({
+            variant: "destructive",
+            title: "Terjadi Kesalahan",
+            description: "Tidak dapat memproses permintaan. Coba lagi nanti.",
+          });
+        }
+      }
+    }
+  };
+
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg max-w-md mx-auto text-gray-800">
+      {/* Judul */}
       <h2 className="text-2xl font-bold mb-6">
         Link Pembayaran Berhasil Dibuat
       </h2>
+
+      {/* Deskripsi */}
       <p className="text-gray-600 mb-6 leading-relaxed">
         Klik tombol di bawah untuk melanjutkan ke halaman pembayaran, atau
         gunakan token pembayaran untuk menyelesaikan transaksi di lain waktu.
       </p>
+
+      {/* Order ID */}
+      <div className="mb-6 p-4 bg-gray-100 rounded-lg border border-gray-300">
+        <h3 className="text-sm font-semibold text-gray-700 mb-2">Order ID</h3>
+        <p className="text-gray-800 font-mono text-sm break-all">{orderId}</p>
+      </div>
+
+      {/* Tombol Cek Status Pesanan */}
+      <button
+        className="block w-full mb-4 text-center bg-green-600 text-white font-medium py-3 rounded-lg hover:bg-green-700 transition"
+        onClick={checkStatusHandler}
+        aria-label="Cek Status Pesanan"
+      >
+        Cek Status Pesanan
+      </button>
+
+      {/* Tombol Lanjutkan ke Pembayaran */}
       <a
         href={redirectUrl}
         target="_blank"
         rel="noopener noreferrer"
         className="block w-full text-center bg-blue-600 text-white font-medium py-3 rounded-lg hover:bg-blue-700 transition"
+        aria-label="Lanjutkan ke Pembayaran"
       >
         Lanjutkan ke Pembayaran
       </a>
+
+      {/* Token Pembayaran */}
       <div className="mt-6 p-4 bg-gray-100 rounded-lg">
         <div className="flex justify-between items-center mb-4">
           <div className="flex items-center gap-2">
             <h3 className="text-sm font-semibold">Token Pembayaran</h3>
             <Popover>
               <PopoverTrigger>
-                <FaCircleInfo className="text-gray-500 hover:text-gray-700 cursor-pointer" />
+                <FaCircleInfo
+                  className="text-gray-500 hover:text-gray-700 cursor-pointer"
+                  aria-label="Informasi Token Pembayaran"
+                />
               </PopoverTrigger>
               <PopoverContent>
                 Simpan token ini jika Anda ingin melakukan pembayaran di lain
@@ -313,6 +326,7 @@ const PaymentLink = ({
                 description: "Token Pembayaran telah disalin",
               });
             }}
+            aria-label="Salin Token"
           >
             <FaRegCopy className="mr-2" />
             Salin
@@ -327,7 +341,6 @@ const PaymentLink = ({
     </div>
   );
 };
-
 
 const errorHandling = (error: unknown, toast: ToastFunction) => {
   if (isAxiosError(error)) {
