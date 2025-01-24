@@ -287,7 +287,6 @@ declare module "midtrans-client" {
     token_id: string;
   }
 
-  declare module "midtrans-client" {
     export class CoreApi {
       constructor(config: CoreApiConfig);
   
@@ -459,5 +458,3 @@ declare module "midtrans-client" {
       order_id: string;
     }
   }
-  
-}

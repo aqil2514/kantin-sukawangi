@@ -8,3 +8,11 @@
 - Pembuatan variabel new Object, `midtransCoreApi`
 - Penambahan interface untuk menyesuaikan dengan `midtransCoreApi`
 - Pembuatan route `cart`(Keranjang). Masih belum selesai
+- Pengubahan interface `CustomerDetails` yang awalnya email itu wajib menjadi opsional
+- Pembuatan desain UI awal untuk route `/cart`. Referensi UI https://assets.justinmind.com/wp-content/uploads/2019/10/shopping-cart-design-jimmy-choo.png
+
+## Sabtu 25 Januari 2025
+- Pembuatan komponen `Checkout` pada route `/cart`
+- Pembuatan komponen `ContinueSection` untuk melanjutkan pembayaran yang telah disimpan Order Tokennya 
+- Route `/cart/` sementara sudah jadi
+- Pembaruan pada komponen `NavbarCarts`. Penambahan icon agar bisa menuju ke halaman `/cart/`

@@ -50,6 +50,12 @@ export default function NavbarCarts() {
             </p>
           </SheetTitle>
           <SheetDescription>
+            <Link href="/cart">
+              <Button className="flex items-center gap-2 bg-blue-700 text-white hover:bg-blue-500 transition-all duration-200">
+                <FaCartShopping />
+                Keranjang Anda
+              </Button>
+            </Link>
             Barang belanjaan akan muncul di sini
           </SheetDescription>
         </SheetHeader>

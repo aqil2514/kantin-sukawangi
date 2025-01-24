@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   try {
     const body: Transaction.TransactionRequestBody = await req.json();
 
-    body.order_id = randomUUID();
+    body.order_id = `ORD-${randomUUID()}`;
 
     const validation = validator.CheckoutPost(body);
 

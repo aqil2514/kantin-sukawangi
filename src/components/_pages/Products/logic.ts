@@ -40,6 +40,8 @@ export const useProductFilter = () => {
     return sorted;
   };
 
+  //TODO : Ada bug di sekitar sini. Jadi, kalo filter dan sort aktif dan terjadi event, semua sort dan filter hilang
+
   // Efek untuk melakukan filter dan sorting
   useEffect(() => {
     let filteredProducts = [...initProducts];

@@ -14,7 +14,7 @@ namespace Transaction {
      * Alamat email pelanggan.
      * @example "john.doe@example.com"
      */
-    email: string;
+    email?: string;
 
     /**
      * Nomor telepon pelanggan.
