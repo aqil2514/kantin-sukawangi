@@ -11,7 +11,7 @@ import {
   transactionReqestSchema,
   TransactionRequestBodyDto,
 } from './dto/transaction-request.dto';
-import { ZodValidationPipe } from 'src/_Pipes/ZodValidationPipe';
+import { ZodValidationPipe } from '../../_Pipes/ZodValidationPipe';
 
 @Controller('checkout')
 export class CheckoutController {

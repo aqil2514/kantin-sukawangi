@@ -1,5 +1,5 @@
 import { TransactionParameters } from "midtrans-client";
-import { TransactionRequestBodyDto } from "src/_Modules/checkout/dto/transaction-request.dto";
+import { TransactionRequestBodyDto } from "../_Modules/checkout/dto/transaction-request.dto";
 
 export const formatTransactionRequest = (
     body: TransactionRequestBodyDto
