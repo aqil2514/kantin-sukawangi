@@ -1,6 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { CartItem } from "./store-cart";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -8,8 +7,8 @@ export function cn(...inputs: ClassValue[]) {
 
 export function convertProductToCartItem(
   product: Product.ProductAttributes
-): CartItem {
-  const newValue: CartItem = {
+): General.CartItem {
+  const newValue: General.CartItem = {
     id: String(product.id),
     name: product.name,
     price: product.price,
