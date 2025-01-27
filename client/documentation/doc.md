@@ -17,3 +17,7 @@
 - Route `/cart/` sementara sudah jadi
 - Pembaruan pada komponen `NavbarCarts`. Penambahan icon agar bisa menuju ke halaman `/cart/`
 - Penyesuaian zod type sudah dilakukan pada email, sehingga saat checkout tidak diperlukan email
+
+## Senin, 27 Januari 2025
+- - Penanganan method GET untuk endpoint `/api/checkout`
+- - Penanganan method POST untuk endpoint `/api/checkout`

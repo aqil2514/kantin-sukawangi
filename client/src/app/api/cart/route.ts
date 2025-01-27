@@ -1,6 +1,8 @@
 import { TransactionResponse } from "midtrans-client";
 import { NextRequest, NextResponse } from "next/server";
 
+// INI BUAT DATABASE DULU, NANTI BARU BISA DISEMPURNAIN
+
 export async function GET(req: NextRequest) {
   const url = new URL(req.nextUrl);
   const { searchParams } = url;
