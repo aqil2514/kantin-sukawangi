@@ -99,6 +99,8 @@ const ContinueSection = () => {
         }
       );
 
+      // TODO : FIX INI NANTI. Jadi, tombol selalu muncul meskipun pembayaran udah berhasil, harusnya muncul kalo tunggu pembayaran atau pending ajah
+
       setResponseMessage("Token berhasil dikirim. Data telah diterima!");
       setRedirectUrl(`${res.data.data?.redirect_url}`);
       reset(); 

@@ -40,12 +40,18 @@ export class CheckoutService {
     return statusMessages[status] || 'Status transaksi tidak diketahui.';
   }
 
-  // TODO : Ini nanti perbarui agar bisa sesuai dengan endpoint /api/cart
   async createTransaction(body: TransactionRequestBodyDto) {
     try {
       body.order_id = this.generateOrderId();
       const parameter = formatTransactionRequest(body);
       const dbData = formatTransactionDb(body);
+
+      const midtrans = await this.midtransService
+        .getSnapClient()
+        .createTransaction(parameter);
+
+      midtrans.token_id = body.order_id;
+      dbData.transaction_reference = midtrans.token
 
       // Simpan ke Supabase
       const { error } = await this.supabaseService
@@ -56,12 +62,6 @@ export class CheckoutService {
       if (error) {
         throw new Error('Gagal menyimpan transaksi ke Supabase');
       }
-
-      const midtrans = await this.midtransService
-        .getSnapClient()
-        .createTransaction(parameter);
-
-      midtrans.token_id = body.order_id;
 
       return createApiResponse(
         'success',
@@ -109,7 +109,7 @@ export class CheckoutService {
     createdTime.setHours(createdTime.getHours() + 7);
     const createdTimeInMillis = createdTime.getTime();
 
-    const timeDiff = (currentTime - createdTimeInMillis) / 1000 / 60; 
+    const timeDiff = (currentTime - createdTimeInMillis) / 1000 / 60;
 
     // TODO: Sementara begini. Nanti ubah lagi kalo ada yang lebih bagus
     if (timeDiff > 5 && data.status === 'awaiting_payment') {
@@ -148,7 +148,7 @@ export class CheckoutService {
         .from('transaction')
         .update({
           status: midtransStatus.transaction_status,
-          status_message: this.transactionStatus(data.status),
+          status_message: this.transactionStatus(midtransStatus.transaction_status),
         })
         .eq('order_id', orderId);
       data.status = midtransStatus.transaction_status as typeof data.status;

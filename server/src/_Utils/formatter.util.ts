@@ -1,6 +1,6 @@
 import { TransactionParameters } from 'midtrans-client';
 import { TransactionRequestBodyDto } from '../_Modules/checkout/dto/transaction-request.dto';
-import { TransactionDbDto } from 'src/_Modules/checkout/dto/transaction-db.dto';
+import { TransactionDbDto } from '../_Modules/checkout/dto/transaction-db.dto';
 
 export const formatTransactionRequest = (
   body: TransactionRequestBodyDto,
@@ -33,31 +33,6 @@ export const formatTransactionRequest = (
   return parameter;
 };
 
-// export const formatTransactionDb =(body:TransactionRequestBodyDto) : TransactionDbDto => {
-//   const result:TransactionDbDto = {
-//     amount: body.gross_amount,
-//     user_id: "Public",
-//     order_id: body.order_id,
-//     transaction_date: new Date().toLocaleString(),
-//     currency: "IDR",
-//     status:"pending",
-//     order_details: {
-//       customer_details: {
-//         email: body.customer_details.email,
-//         full_name: body.customer_details.full_name,
-//         phone: body.customer_details.phone
-//       },
-//       // TODO : TANGANIN INI NANTI
-//       items: []
-//     },
-//     payment_gateway: "Midtrans",
-//     status_message: "Menunggu Pembayaran",
-//     transaction_reference: body.order_id,
-//   }
-
-//   return result;
-// };
-
 export const formatTransactionDb = (body: TransactionRequestBodyDto): TransactionDbDto => {
   const result: TransactionDbDto = {
     amount: body.gross_amount,
@@ -72,6 +47,7 @@ export const formatTransactionDb = (body: TransactionRequestBodyDto): Transactio
         full_name: body.customer_details.full_name,
         phone: body.customer_details.phone,
       },
+      // TODO : Tanganin ini nanti
       items: [], // Jika Anda ingin menangani produk, bisa diisi dengan data yang sesuai
     },
     payment_gateway: "Midtrans", // Dapat diganti dengan gateway yang sesuai
