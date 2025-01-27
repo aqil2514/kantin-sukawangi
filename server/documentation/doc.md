@@ -14,3 +14,6 @@
 ## Senin, 27 Januari 2025
 - Penanganan method GET untuk endpoint `/api/checkout`
 - Koneksi ke Supabase DB 
+- Mengecek status transaksi di Midtrans.
+- Menangani kondisi transaksi yang belum dilanjutkan setelah 5 menit.
+- Pembaruan status transaksi di Supabase sesuai status Midtrans.

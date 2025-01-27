@@ -65,7 +65,7 @@ export const formatTransactionDb = (body: TransactionRequestBodyDto): Transactio
     order_id: body.order_id,
     transaction_date: new Date().toISOString(), // Gunakan ISO untuk format tanggal yang lebih konsisten
     currency: "IDR", // Bisa disesuaikan jika dibutuhkan
-    status: "pending", // Status default jika belum dikonfirmasi
+    status: "awaiting_payment", // Status default jika belum dikonfirmasi
     order_details: {
       customer_details: {
         email: body.customer_details.email,

@@ -7,7 +7,7 @@ export const CreateTransactionSchema = z.object({
   amount: z.number().positive('Jumlah harus lebih dari 0'), // Jumlah transaksi harus lebih besar dari 0
   currency: z.string().length(3, 'Mata uang harus memiliki 3 karakter'), // Mata uang 3 karakter (contoh: 'IDR')
   status: z.enum(
-    ['pending', 'settlement', 'capture', 'deny', 'cancel', 'expire', 'refund'],
+    ['pending', 'settlement', 'capture', 'deny', 'cancel', 'expire', 'refund', "awaiting_payment"],
     {
       errorMap: () => {
         return { message: 'Status transaksi tidak valid' };
