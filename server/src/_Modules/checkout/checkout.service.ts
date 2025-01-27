@@ -1,43 +1,96 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { randomUUID } from 'crypto';
 import { TransactionRequestBodyDto } from './dto/transaction-request.dto';
-import { formatTransactionRequest } from '../../_Utils/formatter.util';
+import {
+  formatTransactionDb,
+  formatTransactionRequest,
+} from '../../_Utils/formatter.util';
 import { MidtransService } from '../midtrans/midtrans.service';
 import { createApiResponse } from '../../_Utils/response.util';
+import { SupabaseService } from '../../_Utils/supabase.service';
 
 @Injectable()
 export class CheckoutService {
-  constructor(private readonly midtransService: MidtransService) {}
+  constructor(
+    private readonly midtransService: MidtransService,
+    private readonly supabaseService: SupabaseService,
+  ) {}
 
   generateOrderId(): string {
     return `ORD-${randomUUID()}`;
   }
 
+  // async createTransaction(body: TransactionRequestBodyDto) {
+  //   try {
+  //     body.order_id = this.generateOrderId();
+
+  //     const parameter = formatTransactionRequest(body);
+  //     const dbData = formatTransactionDb(body);
+
+  //     await this.supabaseService
+  //       .getSupabaseClient()
+  //       .from('transaction')
+  //       .insert(dbData)
+  //       .select();
+
+  //     const midtrans = await this.midtransService
+  //       .getSnapClient()
+  //       .createTransaction(parameter);
+
+  //     midtrans.token_id = body.order_id;
+
+  //     return createApiResponse(
+  //       'success',
+  //       'Transaksi berhasil dibuat',
+  //       midtrans,
+  //     );
+  //   } catch (error) {
+  //     return createApiResponse(
+  //       'error',
+  //       'Gagal membuat transaksi',
+  //       null,
+  //       error.message || error,
+  //     );
+  //   }
+  // }
+
   async createTransaction(body: TransactionRequestBodyDto) {
     try {
       body.order_id = this.generateOrderId();
-
       const parameter = formatTransactionRequest(body);
+      const dbData = formatTransactionDb(body);
+  
+      // Simpan ke Supabase
+      const { data, error } = await this.supabaseService
+        .getSupabaseClient()
+        .from('transaction')
+        .insert(dbData);
+  
+      if (error) {
+        throw new Error('Gagal menyimpan transaksi ke Supabase');
+      }
+  
       const midtrans = await this.midtransService
         .getSnapClient()
         .createTransaction(parameter);
-
+  
       midtrans.token_id = body.order_id;
-
+  
       return createApiResponse(
         'success',
         'Transaksi berhasil dibuat',
-        midtrans,
+        midtrans
       );
     } catch (error) {
       return createApiResponse(
         'error',
         'Gagal membuat transaksi',
         null,
-        error.message || error,
+        error.message || error
       );
     }
   }
+  
 
   async checkTransaction(orderId: string) {
     try {

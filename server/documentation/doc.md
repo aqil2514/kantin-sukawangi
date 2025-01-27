@@ -13,3 +13,4 @@
 
 ## Senin, 27 Januari 2025
 - Penanganan method GET untuk endpoint `/api/checkout`
+- Koneksi ke Supabase DB 
