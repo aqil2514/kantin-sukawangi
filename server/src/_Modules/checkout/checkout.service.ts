@@ -40,6 +40,7 @@ export class CheckoutService {
     return statusMessages[status] || 'Status transaksi tidak diketahui.';
   }
 
+  // TODO : Ini nanti perbarui agar bisa sesuai dengan endpoint /api/cart
   async createTransaction(body: TransactionRequestBodyDto) {
     try {
       body.order_id = this.generateOrderId();
@@ -47,7 +48,7 @@ export class CheckoutService {
       const dbData = formatTransactionDb(body);
 
       // Simpan ke Supabase
-      const { data, error } = await this.supabaseService
+      const { error } = await this.supabaseService
         .getSupabaseClient()
         .from('transaction')
         .insert(dbData);
@@ -80,7 +81,7 @@ export class CheckoutService {
   async checkTransaction(orderId: string) {
     let supabase: PostgrestSingleResponse<any[]>;
     let midtransStatus: TransactionStatusResponse;
-  
+
     try {
       // Cek data transaksi di Supabase
       supabase = await this.supabaseService
@@ -88,7 +89,7 @@ export class CheckoutService {
         .from('transaction')
         .select()
         .eq('order_id', orderId);
-  
+
       if (!supabase.data?.length) {
         throw new Error('Transaksi tidak ditemukan di Supabase');
       }
@@ -98,26 +99,34 @@ export class CheckoutService {
         'Transaksi belum dibuat atau tidak ditemukan',
       );
     }
-  
+
     // Ambil data transaksi dari Supabase
     const data = supabase.data[0] as TransactionDbDto;
-  
+
     // Cek apakah transaksi sudah lebih dari 5 menit
     const currentTime = new Date().getTime();
-    const createdTime = new Date(data.transaction_date).getTime();
-    const timeDiff = (currentTime - createdTime) / 1000 / 60; // dalam menit
-  
+    const createdTime = new Date(data.transaction_date);
+    createdTime.setHours(createdTime.getHours() + 7);
+    const createdTimeInMillis = createdTime.getTime();
+
+    const timeDiff = (currentTime - createdTimeInMillis) / 1000 / 60; 
+
+    // TODO: Sementara begini. Nanti ubah lagi kalo ada yang lebih bagus
     if (timeDiff > 5 && data.status === 'awaiting_payment') {
       // Jika sudah lebih dari 5 menit dan masih awaiting_payment, set status menjadi expired
       await this.supabaseService
         .getSupabaseClient()
         .from('transaction')
-        .update({ status: 'expire' })
+        .update({
+          status: 'expire',
+          status_message: this.transactionStatus(data.status),
+        })
         .eq('order_id', orderId);
-  
+
       data.status = 'expire';
+      data.status_message = this.transactionStatus(data.status);
     }
-  
+
     try {
       // Cek status transaksi di Midtrans
       midtransStatus = await this.midtransService
@@ -129,16 +138,22 @@ export class CheckoutService {
       );
       midtransStatus = {} as TransactionStatusResponse;
     }
-  
-    if (midtransStatus.transaction_status && midtransStatus.transaction_status !== data.status) {
+
+    if (
+      midtransStatus.transaction_status &&
+      midtransStatus.transaction_status !== data.status
+    ) {
       await this.supabaseService
         .getSupabaseClient()
         .from('transaction')
-        .update({ status: midtransStatus.transaction_status })
-        .eq("order_id", orderId);
+        .update({
+          status: midtransStatus.transaction_status,
+          status_message: this.transactionStatus(data.status),
+        })
+        .eq('order_id', orderId);
       data.status = midtransStatus.transaction_status as typeof data.status;
     }
-  
+
     // Persiapkan response dengan status transaksi dari Supabase
     const response: General.ApiResponse<Transaction.CheckTransactionStatus> = {
       message: this.transactionStatus(data.status),
@@ -148,7 +163,7 @@ export class CheckoutService {
         status_message: data.status_message,
       },
     };
-  
+
     return response;
   }
 }

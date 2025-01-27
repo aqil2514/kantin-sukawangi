@@ -17,3 +17,4 @@
 - Mengecek status transaksi di Midtrans.
 - Menangani kondisi transaksi yang belum dilanjutkan setelah 5 menit.
 - Pembaruan status transaksi di Supabase sesuai status Midtrans.
+- Bug Fix : Penanganan perbedaan zona waktu (Untuk sementara)

@@ -20,4 +20,5 @@
 
 ## Senin, 27 Januari 2025
 - Penanganan method GET untuk endpoint `/api/checkout`
-    - Penanganan method POST untuk endpoint `/api/checkout`
+- Penanganan method POST untuk endpoint `/api/checkout`
+- Peningkatan pada route `/checkout`
