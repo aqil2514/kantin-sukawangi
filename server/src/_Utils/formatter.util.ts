@@ -48,7 +48,7 @@ export const formatTransactionDb = (body: TransactionRequestBodyDto): Transactio
         phone: body.customer_details.phone,
       },
       // TODO : Tanganin ini nanti
-      items: [], // Jika Anda ingin menangani produk, bisa diisi dengan data yang sesuai
+      items: body.cart_items, // Jika Anda ingin menangani produk, bisa diisi dengan data yang sesuai
     },
     payment_gateway: "Midtrans", // Dapat diganti dengan gateway yang sesuai
     status_message: "Menunggu Pembayaran", // Pesan default status

@@ -2,8 +2,6 @@ import { ksEndpoint } from "@/lib/endpoint";
 import axios, { isAxiosError } from "axios";
 import { NextRequest, NextResponse } from "next/server";
 
-// INI BUAT DATABASE DULU, NANTI BARU BISA DISEMPURNAIN
-
 export async function GET(req: NextRequest) {
   const url = new URL(req.nextUrl);
   const { searchParams } = url;
@@ -18,12 +16,17 @@ export async function GET(req: NextRequest) {
 
     const redirect_url = `https://app.sandbox.midtrans.com/snap/v4/redirection/${data.data?.transaction_reference}`;
 
-    const response: General.ApiResponse = {
+    if(!data.data) throw new Error("Terjadi Kesalahan")
+
+      console.log(data.data)
+
+    const response: General.ApiResponse<General.CartGetApiResponse> = {
       message: data.message,
       data: {
         redirect_url,
-        status: data.data?.status,
-        statusMessage: data.data?.status_message,
+        status: data.data.status,
+        statusMessage: data.data.status_message ?? "",
+        cart_items: data.data.order_details?.items as General.CartItem[]
       },
     };
 
@@ -31,7 +34,7 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     if (isAxiosError(error)) {
       if (error.status === 404) {
-        const response: General.ApiResponse = {
+        const response: General.ApiResponse<General.CartGetApiResponse> = {
           message: "Token atau order ID yang dimasukkan tidak valid",
           errors: error,
         };

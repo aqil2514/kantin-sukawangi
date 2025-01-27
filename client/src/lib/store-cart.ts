@@ -2,16 +2,8 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { convertProductToCartItem } from "./utils";
 
-export interface CartItem {
-  id: string; // ID produk, bisa berupa string atau number
-  name: string; // Nama produk
-  price: number; // Harga produk
-  quantity: number; // Jumlah produk yang ditambahkan ke keranjang
-  imageUrl?: string; // (Opsional) URL gambar produk
-}
-
 type State = {
-  cartItems: CartItem[]; // Array dari CartItem
+  cartItems: General.CartItem[]; // Array dari CartItem
 };
 
 type Action = {

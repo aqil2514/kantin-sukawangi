@@ -1,10 +1,21 @@
-import { BadRequestException, Controller, Get, Query, UsePipes, ValidationPipe } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  Query,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { CartService } from './cart.service';
 import { TransactionDbDto } from '../checkout/dto/transaction-db.dto';
+import { CheckoutService } from '../checkout/checkout.service';
 
 @Controller('cart')
 export class CartController {
-  constructor(private readonly cartService: CartService) {}
+  constructor(
+    private readonly cartService: CartService,
+    private readonly checkoutService:CheckoutService
+  ) {}
 
   @Get()
   @UsePipes(new ValidationPipe({ whitelist: true }))

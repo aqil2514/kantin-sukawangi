@@ -160,6 +160,11 @@ namespace Transaction {
      * Berisi informasi pribadi seperti nama, email, dan nomor telepon.
      */
     customer_details: CustomerDetails;
+
+    /**
+     * Detail barang yang akan dibeli.
+     */
+    cart_items: General.CartItem[];
   }
 
   /**
@@ -170,6 +175,6 @@ namespace Transaction {
     /** Detail customer atau pembeli */
     customer_details: CustomerDetails;
     /** Detail barang yang dibeli */
-    items: Item[];
+    items: General.CartItem[];
   }
 }

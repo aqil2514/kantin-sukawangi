@@ -35,6 +35,21 @@ namespace General {
     code?: number;
   }
 
+  export interface CartGetApiResponse {
+    redirect_url: string;
+    status: Transaction.TransactionStatus;
+    statusMessage: string;
+    cart_items: General.CartItem[]
+  }
+
+  export interface CartItem {
+    id: string; // ID produk, bisa berupa string atau number
+    name: string; // Nama produk
+    price: number; // Harga produk
+    quantity: number; // Jumlah produk yang ditambahkan ke keranjang
+    imageUrl?: string; // (Opsional) URL gambar produk
+  }
+
   /**Representasi dari kesalahan validasi, berisi jalur properti dan pesan kesalahan.*/
   export interface ValidationError {
     /**

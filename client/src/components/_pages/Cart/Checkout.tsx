@@ -3,17 +3,17 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCartStore } from "@/lib/store-cart";
 import axios from "axios";
-import { TransactionResponse } from "midtrans-client";
 import Link from "next/link";
 import React, { SetStateAction, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useCartContext, ValueState } from "./Providers";
 
 type FormData = {
   token: string;
 };
 
 export default function Checkout() {
-  const [value, setValue] = useState<string>("checkout");
+  const {setValue, value} = useCartContext()
   const renderPage: Record<string, React.ReactNode> = {
     checkout: <CheckoutSection />,
     continue: <ContinueSection />,
@@ -79,6 +79,7 @@ const ContinueSection = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const [redirectUrl, setRedirectUrl] = useState<string | null>(null); // URL Redirect
+  const {setItems} = useCartContext()
   const {
     register,
     handleSubmit,
@@ -92,18 +93,24 @@ const ContinueSection = () => {
     setRedirectUrl(null); // Reset URL setiap kali form disubmit
 
     try {
-      const res = await axios.get<General.ApiResponse<TransactionResponse>>(
-        "/api/cart",
-        {
-          params: { token: data.token },
-        }
-      );
+      const { data: resData } = await axios.get<
+        General.ApiResponse<General.CartGetApiResponse>
+      >("/api/cart", {
+        params: { token: data.token },
+      });
 
-      // TODO : FIX INI NANTI. Jadi, tombol selalu muncul meskipun pembayaran udah berhasil, harusnya muncul kalo tunggu pembayaran atau pending ajah
+      if (!resData.data) return;
+      const { status, redirect_url, statusMessage, cart_items } = resData.data;
 
-      setResponseMessage("Token berhasil dikirim. Data telah diterima!");
-      setRedirectUrl(`${res.data.data?.redirect_url}`);
-      reset(); 
+      if (status === "awaiting_payment" || status === "pending") {
+        setRedirectUrl(`${redirect_url}`);
+        setResponseMessage(`Link pembayaran berhasil dibuat`);
+        reset();
+      } else {
+        setResponseMessage(`${statusMessage}`);
+      }
+      
+      setItems(cart_items)
     } catch (error) {
       console.error(error);
       setResponseMessage(
@@ -189,13 +196,13 @@ const ContinueSection = () => {
 const Radio = ({
   setValue,
 }: {
-  setValue: React.Dispatch<SetStateAction<string>>;
+  setValue: React.Dispatch<SetStateAction<ValueState>>;
 }) => {
   return (
     <RadioGroup
       className="flex gap-4"
       defaultValue="checkout"
-      onValueChange={(e) => setValue(e)}
+      onValueChange={(e) => setValue(e as ValueState)}
     >
       <div className="flex items-center space-x-2">
         <RadioGroupItem value="checkout" id="r1" />

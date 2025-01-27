@@ -152,6 +152,7 @@ export class CheckoutService {
         })
         .eq('order_id', orderId);
       data.status = midtransStatus.transaction_status as typeof data.status;
+
     }
 
     // Persiapkan response dengan status transaksi dari Supabase

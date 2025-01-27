@@ -53,6 +53,7 @@ const PaymentForm = () => {
     data
   ) => {
     data.gross_amount = calculateTotal();
+    data.cart_items = cartItems;
 
     try {
       const res = await axios.post<General.ApiResponse<TransactionResponse>>(
