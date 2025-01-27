@@ -77,65 +77,6 @@ export class CheckoutService {
     }
   }
 
-  // async checkTransaction(orderId: string) {
-  //   let supabase: PostgrestSingleResponse<any[]>;
-  //   let midtransStatus: TransactionStatusResponse;
-
-  //   try {
-  //     // Cek data transaksi di Supabase
-  //     supabase = await this.supabaseService
-  //       .getSupabaseClient()
-  //       .from('transaction')
-  //       .select()
-  //       .eq('order_id', orderId);
-
-  //     if (!supabase.data?.length) {
-  //       throw new Error('Transaksi tidak ditemukan di Supabase');
-  //     }
-  //   } catch (error) {
-  //     console.error('Error in Supabase:', error);
-  //     throw new NotFoundException(
-  //       'Transaksi belum dibuat atau tidak ditemukan',
-  //     );
-  //   }
-
-  //   try {
-  //     // Cek status transaksi di Midtrans
-  //     midtransStatus = await this.midtransService
-  //       .getCoreApiClient()
-  //       .transaction.status(orderId);
-  //   } catch (error) {
-  //     console.warn(
-  //       'Midtrans error (akan diabaikan): Transaksi tidak ada di Midtrans',
-  //     );
-  //     midtransStatus = {} as TransactionStatusResponse;
-  //   }
-
-  //   // Ambil data transaksi dari Supabase
-  //   const data = supabase.data[0] as TransactionDbDto;
-
-  //   if (midtransStatus && midtransStatus.transaction_status !== data.status) {
-  //     await this.supabaseService
-  //       .getSupabaseClient()
-  //       .from('transaction')
-  //       .update({ status: midtransStatus.transaction_status })
-  //       .eq("order_id", orderId);
-  //     data.status = midtransStatus.transaction_status as typeof data.status;
-  //   }
-
-  //   // Persiapkan response dengan status transaksi dari Supabase
-  //   const response: General.ApiResponse<Transaction.CheckTransactionStatus> = {
-  //     message: this.transactionStatus(data.status),
-  //     data: {
-  //       transaction_id: data.order_id,
-  //       transaction_status: data.status,
-  //       status_message: data.status_message,
-  //     },
-  //   };
-
-  //   return response;
-  // }
-
   async checkTransaction(orderId: string) {
     let supabase: PostgrestSingleResponse<any[]>;
     let midtransStatus: TransactionStatusResponse;
@@ -210,5 +151,4 @@ export class CheckoutService {
   
     return response;
   }
-  
 }
