@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import Login from "./login";
 import AuthProvider, { useAuthContext } from "./Provider";
 import Register from "./register";
@@ -8,27 +8,13 @@ import { motion } from "framer-motion";
 
 export default function Authentication() {
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <AuthProvider>
       <CurrentPage />
     </AuthProvider>
+    </Suspense>
   );
 }
-
-// const CurrentPage = () => {
-//   const { activePage } = useAuthContext();
-
-//   return (
-//     <motion.div
-//       key={activePage} // Animasi akan di-trigger ulang saat ada perubahan activePage
-//       initial={{ opacity: 0, x: 50 }} // Animasi awal
-//       animate={{ opacity: 1, x: 0 }} // Animasi saat muncul
-//       exit={{ opacity: 0, x: -50 }} // Animasi saat keluar
-//       transition={{ duration: 0.5 }} // Durasi transisi
-//     >
-//       {activePage === "login" ? <Login /> : <Register />}
-//     </motion.div>
-//   );
-// };
 
 const CurrentPage = () => {
   const { activePage } = useAuthContext();
