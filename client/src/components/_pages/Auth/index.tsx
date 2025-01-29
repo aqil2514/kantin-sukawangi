@@ -5,8 +5,12 @@ import AuthProvider, { useAuthContext } from "./Provider";
 import Register from "./register";
 
 import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
 
 export default function Authentication() {
+  const {data} = useSession();
+
+  console.log(data)
   return (
     <Suspense fallback={<div>Loading...</div>}>
     <AuthProvider>

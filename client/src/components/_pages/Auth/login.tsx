@@ -9,6 +9,7 @@ import TogglePage from "./TogglePage";
 import { FaGoogle } from "react-icons/fa"; // Import ikon Google dari react-icons
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
+import { signIn } from "next-auth/react";
 
 interface LoginFormData {
   username: string;
@@ -50,7 +51,7 @@ const LoginForm = () => {
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const submitHandler = (data: LoginFormData) => {
-    console.log("Form Submitted", data);
+    signIn("credentials", { redirectTo: "/", user:data.username, password:data.username }, { data });
     setIsLoading(true); // Set loading saat form disubmit
     setIsSuccess(false); // Reset status sukses sebelum proses
     setIsError(false); // Reset error status sebelum proses
@@ -65,10 +66,6 @@ const LoginForm = () => {
         setIsError(true); // Set error jika username/password salah
       }
     }, 2000);
-  };
-
-  const handleGoogleLogin = () => {
-    console.log("Login with Google");
   };
 
   return (
@@ -161,7 +158,8 @@ const LoginForm = () => {
       {/* Google Login Button */}
       <Button
         type="button"
-        onClick={handleGoogleLogin}
+        // onClick={handleGoogleLogin}
+        onClick={() => signIn("google", { redirectTo: "/" })}
         className={`w-full mt-4 flex items-center justify-center py-2 px-4 border bg-gray-50 border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition ${
           isLoading ? "opacity-50 cursor-not-allowed" : ""
         }`}

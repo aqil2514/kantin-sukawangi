@@ -9,9 +9,12 @@ import NavbarMobile from "./NavbarMobile";
 import { useMemo } from "react";
 import NavbarCarts from "./NavbarCarts";
 import { Button } from "../ui/button";
+import { signOut, useSession } from "next-auth/react";
+import { LogOut } from "lucide-react";
 
 export default function Navbar() {
   const pathName = usePathname();
+  const { data: session } = useSession();
 
   // Memoize navigatorLinks to optimize performance
   const links = useMemo(() => navigatorLinks, []);
@@ -68,11 +71,17 @@ export default function Navbar() {
         </div>
 
         <div className="flex gap-4">
-          <Link href={"/auth"} className="hidden md:block" >
-            <Button className="relative bg-green-600 hover:bg-green-500 transition-all duration-300">
-              <FaKey />
+          {session ? (
+            <Button className="relative bg-red-600 hover:bg-red-500 transition-all duration-300" onClick={() => signOut()}>
+              <LogOut />
             </Button>
-          </Link>
+          ) : (
+            <Link href={"/auth"} className="hidden md:block">
+              <Button className="relative bg-green-600 hover:bg-green-500 transition-all duration-300">
+                <FaKey />
+              </Button>
+            </Link>
+          )}
 
           {/* Navbar Carts */}
           <NavbarCarts />

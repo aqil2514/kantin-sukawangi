@@ -6,6 +6,6 @@ export const metadata:Metadata={
   description:"Halaman landing page Kantin Sukawangi"
 }
 
-export default function Home() {
+export default async function Home() {
   return <LandingPage />;
 }

@@ -4,11 +4,12 @@ import "./globals.css";
 import Navbar from "@/components/Layouts/Navbar";
 import Footer from "@/components/Layouts/Footer";
 import { Toaster } from "@/components/ui/toaster";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: {
-    default:"Kantin Sukawangi",
-    template: "%s | Kantin Sukawangi"
+    default: "Kantin Sukawangi",
+    template: "%s | Kantin Sukawangi",
   },
   description: "Kantin Sukawangi",
 };
@@ -48,14 +49,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} ${macondoFont.variable} ${oswaldFont.variable} ${loraFont.variable} antialiased`}
-      >
-        <Navbar />
-        <Toaster />
-        {children}
-        <Footer />
-      </body>
+      <SessionProvider>
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} ${macondoFont.variable} ${oswaldFont.variable} ${loraFont.variable} antialiased`}
+        >
+          <Navbar />
+          <Toaster />
+          {children}
+          <Footer />
+        </body>
+      </SessionProvider>
     </html>
   );
 }
