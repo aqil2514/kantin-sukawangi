@@ -18,8 +18,6 @@ export async function GET(req: NextRequest) {
 
     if(!data.data) throw new Error("Terjadi Kesalahan")
 
-      console.log(data.data)
-
     const response: General.ApiResponse<General.CartGetApiResponse> = {
       message: data.message,
       data: {

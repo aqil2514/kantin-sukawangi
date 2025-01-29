@@ -131,8 +131,6 @@ const PaymentLink = () => {
         params: { orderId },
       });
 
-      console.log(res.data.data);
-
       setPaymentStatus(res.data.data?.transaction_status ?? "awaiting_payment");
 
       toast({

@@ -10,9 +10,14 @@ import { FaGoogle } from "react-icons/fa"; // Import ikon Google dari react-icon
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { signIn } from "next-auth/react";
+import axios, { isAxiosError } from "axios";
+import { PostgrestError } from "@supabase/supabase-js";
+import { ZodError } from "zod";
+import { toast } from "@/hooks/use-toast";
+import { useRouter } from "next/navigation";
 
 interface LoginFormData {
-  username: string;
+  emailOrUsername: string;
   password: string;
 }
 
@@ -38,10 +43,9 @@ export default function Login() {
 }
 
 const LoginForm = () => {
+  const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false); // Simulasi loading
-  const [isSuccess, setIsSuccess] = useState<boolean>(false); // Simulasi status sukses
-  const [isError, setIsError] = useState<boolean>(false); // Simulasi status error
   const {
     register,
     handleSubmit,
@@ -51,25 +55,43 @@ const LoginForm = () => {
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   //TODO : Masih belum bisa
-  const submitHandler = (data: LoginFormData) => {
-    console.log(data)
-    // signIn("credentials", { redirectTo: "/", email:data.username, password:data.password }, { data });
-    setIsLoading(true); // Set loading saat form disubmit
-    setIsSuccess(false); // Reset status sukses sebelum proses
-    setIsError(false); // Reset error status sebelum proses
+  const submitHandler = async (cred: LoginFormData) => {
+    try {
+      setIsLoading(true);
+      const { data } = await axios.post<
+        General.ApiResponse<Auth.Users, PostgrestError | ZodError>
+      >(`/api/auth/login`, cred);
+      console.log(data);
+    } catch (err) {
+      if (isAxiosError(err)) {
+        const data: General.ApiResponse<Auth.Users, PostgrestError | ZodError> =
+          err.response?.data;
+        const status = err.status;
+        if (status === 422) {
+          const error = data.errors as ZodError;
+          toast({
+            title: "Login Errror",
+            variant: "destructive",
+            description: error.issues[0].message,
+          });
+        } else if (status === 403) {
+          toast({
+            title: "Login Errror",
+            variant: "destructive",
+            description: data.message ?? "Terjadi kesalahan pada server",
+          });
 
-    // Simulasi delay loading
-    setTimeout(() => {
-      setIsLoading(false); // Hentikan loading setelah 2 detik
-      // Simulasi sukses atau gagal
-      if (data.username === "admin" && data.password === "@admin123") {
-        setIsSuccess(true); // Set sukses jika login berhasil
-      } else {
-        setIsError(true); // Set error jika username/password salah
+          router.push(`/new-password?email=${data.data?.email}`);
+        }
+        toast({
+          title: "Login Errror",
+          variant: "destructive",
+          description: data.message ?? "Terjadi kesalahan pada server",
+        });
       }
-      alert("Fitur login email password belum siap, gunakan Login dengan Google")
-    }, 2000);
-  };
+    } finally {
+      setIsLoading(false);
+    }}
 
   return (
     <form
@@ -80,18 +102,20 @@ const LoginForm = () => {
       {/* Username Input */}
       <div className="relative mb-6">
         <Label
-          htmlFor="username"
+          htmlFor="Email or Username"
           className="block text-lg font-medium text-gray-700"
         >
-          Username
+          Email or Username
         </Label>
         <div className="relative flex items-center">
           <span className="absolute left-3 top-[40%] text-gray-400">
             <FaRegUserCircle size={16} />
           </span>
           <Input
-            id="username"
-            {...register("username", { required: "Username diperlukan" })}
+            id="Email or Username"
+            {...register("emailOrUsername", {
+              required: "Username atau Email diperlukan",
+            })}
             className={`w-full pl-10 pr-4 py-2 mt-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-500 ${
               isLoading ? "bg-gray-200" : ""
             }`}
@@ -99,8 +123,8 @@ const LoginForm = () => {
             disabled={isLoading} // Disable input during loading
           />
         </div>
-        {errors.username && (
-          <p className="text-red-500">{errors.username.message}</p>
+        {errors.emailOrUsername && (
+          <p className="text-red-500">{errors.emailOrUsername.message}</p>
         )}
       </div>
 
@@ -171,20 +195,6 @@ const LoginForm = () => {
         <FaGoogle size={20} className="mr-2" />
         Login with Google
       </Button>
-
-      {/* Success Message */}
-      {isSuccess && (
-        <div className="mt-6 text-green-600">
-          <p>Login successful! Welcome back.</p>
-        </div>
-      )}
-
-      {/* Error Message */}
-      {isError && (
-        <div className="mt-6 text-red-600">
-          <p>Login failed! Invalid username or password.</p>
-        </div>
-      )}
     </form>
   );
 };

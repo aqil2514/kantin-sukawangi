@@ -1,11 +1,11 @@
 import { object, string } from "zod"
  
 export const signInSchema = object({
-  email: string({ required_error: "Email diperlukan" })
-    .min(1, "Email diperlukan")
-    .email("Email tidak valid"),
-  password: string({ required_error: "Password Diperlukan" })
-    .min(1, "Password Diperlukan")
+  emailOrUsername: string({ required_error: "Email atau Username diperlukan" })
+    .min(1, "Email atau Username diperlukan")
+    .max(100, "Email atau Username terlalu panjang"),
+  password: string({ required_error: "Password diperlukan" })
+    .min(1, "Password diperlukan")
     .min(8, "Password minimal 8 karakter")
     .max(32, "Password maksimal 32 karakter"),
-})
+});

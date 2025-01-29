@@ -27,3 +27,6 @@
 - Pembuatan route baru untuk `/auth`
 - Simulasi login pada route `/auth`
 - Authenticaion dengan Auth.js dan menggunakan Supabase sebagai Adapter
+
+## Kamis, 30 Januari 2025
+- Pembuatan rounte baru `/new-password` untuk mengurus user yang login dengan email, namun tidak memiliki password.
