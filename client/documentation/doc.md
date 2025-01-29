@@ -25,4 +25,5 @@
 
 ## Rabu, 29 Januari 2025
 - Pembuatan route baru untuk `/auth`
-- Simulasis login pada route `/auth`
+- Simulasi login pada route `/auth`
+- Authenticaion dengan Auth.js dan menggunakan Supabase sebagai Adapter

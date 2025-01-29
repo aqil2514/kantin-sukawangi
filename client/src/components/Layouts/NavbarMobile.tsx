@@ -13,9 +13,12 @@ import { navigatorLinks } from "./misc";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { FaKey } from "react-icons/fa";
+import { signOut, useSession } from "next-auth/react";
+import { LogOut } from "lucide-react";
 
 export default function NavbarMobile() {
   const pathName = usePathname();
+  const { data: session } = useSession();
   return (
     <Sheet>
       <SheetTrigger className="block md:hidden" asChild>
@@ -27,18 +30,27 @@ export default function NavbarMobile() {
         <SheetHeader>
           <SheetTitle>
             <Link href={"/"}>
-                <p className="font-macondo text-xl md:text-2xl font-bold text-red-500">
-                  Kantin <span className="text-amber-500">Sukawangi</span>
-                </p>
+              <p className="font-macondo text-xl md:text-2xl font-bold text-red-500">
+                Kantin <span className="text-amber-500">Sukawangi</span>
+              </p>
             </Link>
           </SheetTitle>
         </SheetHeader>
-        <Link href={"/auth"} >
+        {session ? (
+          <Button
+            className="relative bg-red-600 hover:bg-red-500 transition-all duration-300"
+            onClick={() => signOut()}
+          >
+            <LogOut /> Logout
+          </Button>
+        ) : (
+          <Link href={"/auth"}>
             <Button className="relative bg-green-600 hover:bg-green-500 transition-all duration-300">
               <FaKey />
               Login
             </Button>
           </Link>
+        )}
         <div className="flex flex-col gap-4">
           {navigatorLinks.map((nav, i) =>
             pathName === nav.href ? (

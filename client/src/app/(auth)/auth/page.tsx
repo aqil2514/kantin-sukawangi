@@ -5,6 +5,6 @@ export const metadata: Metadata = {
   title: "Autentikasi",
 };
 
-export default function auth() {
+export default async function auth() {
   return <Authentication />;
 }

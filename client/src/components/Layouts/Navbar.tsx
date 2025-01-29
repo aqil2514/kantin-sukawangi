@@ -72,7 +72,7 @@ export default function Navbar() {
 
         <div className="flex gap-4">
           {session ? (
-            <Button className="relative bg-red-600 hover:bg-red-500 transition-all duration-300" onClick={() => signOut()}>
+            <Button className="relative bg-red-600 hover:bg-red-500 transition-all duration-300 hidden md:inline-block" onClick={() => signOut()}>
               <LogOut />
             </Button>
           ) : (

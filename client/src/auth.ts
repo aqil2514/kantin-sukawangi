@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
+import { supabaseAdmin } from "./lib/server/supabase";
 
 // TODO : Nanti lanjutin ini. Credential harus nyambung ke adapter
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -15,9 +16,16 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         csrfToken: {},
         callbackUrl: {},
       },
-      authorize: async (credentials) => {
+      authorize: async () => {
         const user = {};
-        console.log(credentials);
+        const db = await supabaseAdmin
+          .schema("next_auth")
+          .from("users")
+          .select()
+          .eq("email", "muhamadaqil383@gmail.com")
+          .single();
+
+        console.log(db);
 
         return user;
       },
