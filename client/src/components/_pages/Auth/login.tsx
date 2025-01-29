@@ -50,8 +50,10 @@ const LoginForm = () => {
 
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
+  //TODO : Masih belum bisa
   const submitHandler = (data: LoginFormData) => {
-    signIn("credentials", { redirectTo: "/", user:data.username, password:data.username }, { data });
+    console.log(data)
+    // signIn("credentials", { redirectTo: "/", email:data.username, password:data.password }, { data });
     setIsLoading(true); // Set loading saat form disubmit
     setIsSuccess(false); // Reset status sukses sebelum proses
     setIsError(false); // Reset error status sebelum proses
@@ -65,6 +67,7 @@ const LoginForm = () => {
       } else {
         setIsError(true); // Set error jika username/password salah
       }
+      alert("Fitur login email password belum siap, gunakan Login dengan Google")
     }, 2000);
   };
 

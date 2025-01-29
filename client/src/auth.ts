@@ -1,8 +1,11 @@
-import NextAuth from "next-auth";
+import NextAuth, { CredentialsSignin } from "next-auth";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import { SupabaseAdapter } from "@auth/supabase-adapter";
 import { supabaseAdmin } from "./lib/server/supabase";
+import { signInSchema } from "./lib/zod";
+import { ZodError } from "zod";
+import { redirect } from "next/navigation";
 
 // TODO : Nanti lanjutin ini. Credential harus nyambung ke adapter
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -10,24 +13,47 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     Google,
     Credentials({
       credentials: {
-        redirectTo: {},
-        user: {},
+        email: {},
         password: {},
-        csrfToken: {},
-        callbackUrl: {},
       },
-      authorize: async () => {
-        const user = {};
-        const db = await supabaseAdmin
-          .schema("next_auth")
-          .from("users")
-          .select()
-          .eq("email", "muhamadaqil383@gmail.com")
-          .single();
+      //@ts-expect-error " ga tau ribet"
+      authorize: async (credentials):Promise<Auth.Users | undefined | null> => {
+        let userData: Auth.Users;
 
-        console.log(db);
+        try {
+          console.log(credentials)
+          const validation = await signInSchema.parseAsync(
+            credentials
+          );
+          console.log(validation)
 
-        return user;
+
+          const { data, error } = await supabaseAdmin
+            .schema("next_auth")
+            .from("users")
+            .select()
+            .eq("email", validation.email)
+            .single();
+
+            console.log(data)
+
+          if (!data) {
+            throw new CredentialsSignin("User tidak ditemukan");
+          }
+          if (error) {
+            throw new Error("Terjadi kesalahan:", error);
+          }
+
+          userData = data;
+          if(!userData.password) return redirect("/eror")
+
+          return userData;
+        } catch (error) {
+          if (error instanceof ZodError) {
+            console.log(error)
+            return null;
+          }
+        }
       },
     }),
   ],
