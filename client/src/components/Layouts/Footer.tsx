@@ -112,7 +112,7 @@ export default function Footer() {
   const links = useMemo(() => navigatorLinks, []);
 
   return (
-    <footer className="w-full h-auto grid grid-rows-[4rem_auto_3rem]">
+    <footer className="w-full h-auto grid grid-rows-[4rem_auto_3rem] z-50 relative">
       {/* Logo Section */}
       <div className="bg-zinc-800 flex justify-center items-center py-4">
         <Image

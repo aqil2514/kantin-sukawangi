@@ -12,6 +12,7 @@ import { CiMenuBurger } from "react-icons/ci";
 import { navigatorLinks } from "./misc";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
+import { FaKey } from "react-icons/fa";
 
 export default function NavbarMobile() {
   const pathName = usePathname();
@@ -32,6 +33,12 @@ export default function NavbarMobile() {
             </Link>
           </SheetTitle>
         </SheetHeader>
+        <Link href={"/auth"} >
+            <Button className="relative bg-green-600 hover:bg-green-500 transition-all duration-300">
+              <FaKey />
+              Login
+            </Button>
+          </Link>
         <div className="flex flex-col gap-4">
           {navigatorLinks.map((nav, i) =>
             pathName === nav.href ? (

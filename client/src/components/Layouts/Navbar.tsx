@@ -2,12 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { FaWhatsapp } from "react-icons/fa";
+import { FaKey, FaWhatsapp } from "react-icons/fa";
 import { navigatorLinks } from "./misc";
 import { usePathname } from "next/navigation";
 import NavbarMobile from "./NavbarMobile";
 import { useMemo } from "react";
 import NavbarCarts from "./NavbarCarts";
+import { Button } from "../ui/button";
 
 export default function Navbar() {
   const pathName = usePathname();
@@ -66,11 +67,19 @@ export default function Navbar() {
           ))}
         </div>
 
-        {/* Navbar Carts */}
-        <NavbarCarts />
+        <div className="flex gap-4">
+          <Link href={"/auth"} className="hidden md:block" >
+            <Button className="relative bg-green-600 hover:bg-green-500 transition-all duration-300">
+              <FaKey />
+            </Button>
+          </Link>
 
-        {/* Mobile Navigation */}
-        <NavbarMobile />
+          {/* Navbar Carts */}
+          <NavbarCarts />
+
+          {/* Mobile Navigation */}
+          <NavbarMobile />
+        </div>
       </nav>
     </header>
   );
