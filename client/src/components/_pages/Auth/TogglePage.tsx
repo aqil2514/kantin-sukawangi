@@ -13,6 +13,7 @@ export default function TogglePage() {
   };
 
   return (
+    <div className={`flex ${isLogin ? "justify-start": "justify-end"}`}>
     <div className="relative w-40 mt-4 bg-indigo-600 rounded-xl overflow-hidden">
       {/* Background transition */}
       <div
@@ -37,6 +38,7 @@ export default function TogglePage() {
           Login
         </div>
       </div>
+    </div>
     </div>
   );
 }
