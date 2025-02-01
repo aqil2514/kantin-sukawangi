@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { useSession } from "next-auth/react";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -34,4 +35,12 @@ export function formatCurrency(
   return new Intl.NumberFormat(locale, { style: "currency", currency }).format(
     amount
   );
+}
+
+export function useGetUser() {
+  const auth = useSession();
+
+  const session = auth.data;
+  const user = session?.user as Auth.User;
+  return {user, session};
 }

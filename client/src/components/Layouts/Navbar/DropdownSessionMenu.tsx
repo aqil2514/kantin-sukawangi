@@ -1,4 +1,5 @@
-import { signOut, useSession } from "next-auth/react"; // Import useSession untuk mendapatkan session
+import { useGetUser } from "@/lib/utils";
+import { signOut } from "next-auth/react"; // Import useSession untuk mendapatkan session
 import Link from "next/link";
 import {
   FaUser,
@@ -9,10 +10,7 @@ import {
 } from "react-icons/fa"; // Menambahkan ikon untuk admin
 
 const DropdownSessionMenu = () => {
-  const auth = useSession(); // Mengambil session data;
-
-  const session = auth.data;
-  const user = session?.user as Auth.User;
+  const {session, user} = useGetUser()
 
   // Jika session tidak ada atau data role kosong
   if (!session || !user) {

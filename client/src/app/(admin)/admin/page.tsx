@@ -1,40 +1,12 @@
-"use client"
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { auth } from "@/auth";
+import Admin from "@/components/_pages/Admin";
+import { redirect } from "next/navigation";
 
-const AdminPage = () => {
-  const { data: session, status } = useSession();
-  const router = useRouter();
+export default async function AdminPage() {
+  const session = await auth();
 
-  useEffect(() => {
-    // Cek apakah sesi pengguna sudah ada dan jika role-nya bukan 'admin'
-    if (status === "authenticated" && session.user.role !== "admin") {
-      // Jika pengguna bukan admin, arahkan ke halaman lain (misalnya beranda)
-      router.push("/");
-    }
-  }, [session, status, router]);
+  if (!session) redirect("/");
+  const user = session.user as Auth.User;
 
-  // Jika sesi belum terdeteksi, tampilkan loading
-  if (status === "loading") {
-    return <div>Loading...</div>;
-  }
-
-  // Jika pengguna adalah admin, tampilkan konten halaman admin
-  if (session?.user.role === "admin") {
-    return (
-      <div className="p-8">
-        <h1 className="text-4xl font-bold mb-4">Admin Dashboard</h1>
-        <p className="text-xl mb-4">Selamat datang, Admin!</p>
-        {/* Konten admin lainnya */}
-        <div>
-          <p>Ini adalah halaman khusus untuk admin.</p>
-        </div>
-      </div>
-    );
-  }
-
-  return null; // Jika bukan admin, tidak menampilkan apa-apa (karena sudah di-redirect di useEffect)
-};
-
-export default AdminPage;
+  if (user.role === "admin") return <Admin />;
+}
