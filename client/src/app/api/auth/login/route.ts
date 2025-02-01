@@ -3,6 +3,8 @@ import { signInSchema } from "@/lib/zod";
 import { PostgrestError } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 import { z, ZodError } from "zod";
+import bcrypt from "bcrypt";
+import { signIn } from "@/auth";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
@@ -12,7 +14,6 @@ export async function POST(req: NextRequest) {
   let userData: Auth.Users;
 
   try {
-    //TODO : Next lanjut ke sini
     const { emailOrUsername, password } = await signInSchema.parseAsync(body);
 
     const isEmail = z.string().email().safeParse(emailOrUsername).success;
@@ -36,8 +37,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(response, { status: 500 });
     }
 
-    console.log(password)
-
     userData = data;
     if (!userData.password) {
       response.message = "Pengguna belum membuat password, mengalihkan...";
@@ -46,8 +45,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json(response, { status: 403 });
     }
 
+    const isCompare = await bcrypt.compare(password, userData.password);
+
+    if (!isCompare) {
+      response.message = "Password tidak sama";
+      return NextResponse.json(response, { status: 400 });
+    }
+
+    userData.password = undefined;
     response.data = userData;
     response.message = "Berhasil masuk";
+
+    const formData = new FormData();
+    formData.set("emailOrUsername", emailOrUsername);
+
+    await signIn("credentials", formData)
     return NextResponse.json(response, { status: 200 });
   } catch (error) {
     if (error instanceof ZodError) {
@@ -55,7 +67,8 @@ export async function POST(req: NextRequest) {
       response.errors = error;
       return NextResponse.json(response, { status: 422 });
     }
+
+    return NextResponse.json({message:"Ada kesalahan pada Server", errors:error}, {status:500})
   }
 
-  return new Response();
 }

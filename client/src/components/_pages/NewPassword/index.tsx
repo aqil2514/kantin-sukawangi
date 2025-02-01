@@ -3,9 +3,11 @@ import Container from "@/components/Layouts/Container";
 import { toast } from "@/hooks/use-toast";
 import axios, { isAxiosError } from "axios";
 import { useSearchParams, useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ZodError } from "zod";
+import PasswordComplexity from "./PasswordComplexity";
+import { FaEnvelope, FaEye, FaEyeSlash, FaLock } from "react-icons/fa";
 
 interface NewPasswordFormData {
   email: string;
@@ -13,17 +15,28 @@ interface NewPasswordFormData {
   confirmPassword: string;
 }
 
+export interface PasswordComplexityProps {
+  uppercase: boolean;
+  lowercase: boolean;
+  number: boolean;
+  specialChar: boolean;
+}
+
 export default function NewPassword() {
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
   const refEmail = useRef<HTMLInputElement | null>(null);
   const router = useRouter();
-  const [passwordComplexity, setPasswordComplexity] = useState({
-    uppercase: false,
-    lowercase: false,
-    number: false,
-    specialChar: false,
-  });
+  const [passwordComplexities, setPasswordComplexities] =
+    useState<PasswordComplexityProps>({
+      uppercase: false,
+      lowercase: false,
+      number: false,
+      specialChar: false,
+    });
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
+  const [isShowConfirmPassword, setIsShowConfirmPassword] =
+    useState<boolean>(false);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -90,13 +103,18 @@ export default function NewPassword() {
   };
 
   const checkPasswordComplexity = (password: string) => {
-    setPasswordComplexity({
+    setPasswordComplexities({
       uppercase: /[A-Z]/.test(password),
       lowercase: /[a-z]/.test(password),
       number: /\d/.test(password),
       specialChar: /[`!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/.test(password),
     });
   };
+
+  const showPasswordHandler = (
+    isVisible: boolean,
+    setIsVisible: Dispatch<SetStateAction<boolean>>
+  ) => setIsVisible(!isVisible);
 
   const password = watch("password");
 
@@ -111,85 +129,74 @@ export default function NewPassword() {
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div>
             <label className="block text-sm font-medium">Email</label>
-            <input
-              type="email"
-              disabled
-              ref={refEmail}
-              className="w-full p-2 border rounded"
-            />
+            <div className="relative"> {/* Add relative wrapper */}
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <FaEnvelope className="text-gray-400" /> {/* Email icon */}
+              </div>
+              <input
+                type="email"
+                disabled
+                ref={refEmail}
+                className="w-full p-2 border rounded pl-10" // Add padding for icon
+              />
+            </div>
             {errors.email && (
               <p className="text-red-500 text-sm">{errors.email.message}</p>
             )}
           </div>
           <div>
             <label className="block text-sm font-medium">New Password</label>
-            <input
-              type="password"
-              {...register("password", {
-                required: "Password diperlukan",
-                minLength: { value: 8, message: "Password minimal 8 karakter" },
-              })}
-              disabled={isLoading}
-              className="w-full p-2 border rounded"
-            />
+            <div className="relative"> {/* Add relative wrapper */}
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <FaLock className="text-gray-400" /> {/* Lock icon */}
+              </div>
+              <input
+                type={isShowPassword ? "text" : "password"} // Toggle password visibility
+                {...register("password", {
+                  required: "Password diperlukan",
+                  minLength: { value: 8, message: "Password minimal 8 karakter" },
+                })}
+                disabled={isLoading}
+                className="w-full p-2 border rounded pl-10" // Add padding for icon
+              />
+              <button
+                type="button"
+                onClick={() => showPasswordHandler(isShowPassword, setIsShowPassword)}
+                className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+              >
+                {isShowPassword ? <FaEyeSlash className="text-gray-400" /> : <FaEye className="text-gray-400" />} {/* Eye/EyeSlash icon */}
+              </button>
+            </div>
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password.message}</p>
             )}
-            {/* Indikator Kompleksitas */}
-            <div className="mt-2 space-y-1 text-sm text-gray-500">
-              <p
-                className={`flex items-center ${
-                  passwordComplexity.uppercase
-                    ? "text-green-500"
-                    : "text-red-500"
-                }`}
-              >
-                {passwordComplexity.uppercase ? "✔" : "❌"} Minimal satu huruf
-                besar
-              </p>
-              <p
-                className={`flex items-center ${
-                  passwordComplexity.lowercase
-                    ? "text-green-500"
-                    : "text-red-500"
-                }`}
-              >
-                {passwordComplexity.lowercase ? "✔" : "❌"} Minimal satu huruf
-                kecil
-              </p>
-              <p
-                className={`flex items-center ${
-                  passwordComplexity.number ? "text-green-500" : "text-red-500"
-                }`}
-              >
-                {passwordComplexity.number ? "✔" : "❌"} Minimal satu angka
-              </p>
-              <p
-                className={`flex items-center ${
-                  passwordComplexity.specialChar
-                    ? "text-green-500"
-                    : "text-red-500"
-                }`}
-              >
-                {passwordComplexity.specialChar ? "✔" : "❌"} Minimal satu
-                karakter khusus
-              </p>
-            </div>
+            <PasswordComplexity passwordComplexity={passwordComplexities} />
           </div>
           <div>
             <label className="block text-sm font-medium">
               Confirm Password
             </label>
-            <input
-              type="password"
-              disabled={isLoading}
-              {...register("confirmPassword", {
-                required: "Konfirmasi password diperlukan",
-                validate: (value) =>
-                  value === password || "Password tidak cocok",
-              })}
-              className="w-full p-2 border rounded"
-            />
+            <div className="relative"> {/* Add relative wrapper */}
+              <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                <FaLock className="text-gray-400" /> {/* Lock icon */}
+              </div>
+              <input
+                type={isShowConfirmPassword ? "text" : "password"} // Toggle password visibility
+                disabled={isLoading}
+                {...register("confirmPassword", {
+                  required: "Konfirmasi password diperlukan",
+                  validate: (value) => value === password || "Password tidak cocok",
+                })}
+                className="w-full p-2 border rounded pl-10" // Add padding for icon
+              />
+              <button
+                type="button"
+                onClick={() => showPasswordHandler(isShowConfirmPassword, setIsShowConfirmPassword)}
+                className="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer"
+              >
+                {isShowConfirmPassword ? <FaEyeSlash className="text-gray-400" /> : <FaEye className="text-gray-400" />} {/* Eye/EyeSlash icon */}
+              </button>
+            </div>
             {errors.confirmPassword && (
               <p className="text-red-500 text-sm">
                 {errors.confirmPassword.message}

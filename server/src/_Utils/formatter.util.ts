@@ -36,24 +36,24 @@ export const formatTransactionRequest = (
 export const formatTransactionDb = (body: TransactionRequestBodyDto): TransactionDbDto => {
   const result: TransactionDbDto = {
     amount: body.gross_amount,
-    user_id: "Public", // Atau Anda bisa menggantinya dengan nilai yang relevan
+    user_id: "Public", 
     order_id: body.order_id,
-    transaction_date: new Date().toISOString(), // Gunakan ISO untuk format tanggal yang lebih konsisten
-    currency: "IDR", // Bisa disesuaikan jika dibutuhkan
-    status: "awaiting_payment", // Status default jika belum dikonfirmasi
+    transaction_date: new Date().toISOString(), 
+    currency: "IDR", 
+    status: "awaiting_payment",   
     order_details: {
       customer_details: {
         email: body.customer_details.email,
         full_name: body.customer_details.full_name,
         phone: body.customer_details.phone,
       },
-      items: body.cart_items, // Jika Anda ingin menangani produk, bisa diisi dengan data yang sesuai
+      items: body.cart_items, 
     },
-    payment_gateway: "Midtrans", // Dapat diganti dengan gateway yang sesuai
-    status_message: "Menunggu Pembayaran", // Pesan default status
-    transaction_reference: body.order_id, // Referensi transaksi bisa disesuaikan
-    payment_method: "credit_card", // Bisa disesuaikan dengan metode pembayaran
-    confirmation_date: null, // Bisa dibiarkan null jika belum ada konfirmasi
+    payment_gateway: "Midtrans", 
+    status_message: "Menunggu Pembayaran", 
+    transaction_reference: body.order_id, 
+    payment_method: "credit_card", 
+    confirmation_date: null, 
   };
 
   return result;

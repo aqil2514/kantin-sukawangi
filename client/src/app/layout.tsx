@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Macondo, Oswald, Lora } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Layouts/Navbar";
 import Footer from "@/components/Layouts/Footer";
 import { Toaster } from "@/components/ui/toaster";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
+import Navbar from "@/components/Layouts/Navbar";
 
 export const metadata: Metadata = {
   title: {
