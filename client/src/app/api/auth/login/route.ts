@@ -8,10 +8,10 @@ import { signIn } from "@/auth";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const response: General.ApiResponse<Auth.Users, PostgrestError | ZodError> = {
+  const response: General.ApiResponse<Auth.User, PostgrestError | ZodError> = {
     message: "",
   };
-  let userData: Auth.Users;
+  let userData: Auth.User;
 
   try {
     const { emailOrUsername, password } = await signInSchema.parseAsync(body);
