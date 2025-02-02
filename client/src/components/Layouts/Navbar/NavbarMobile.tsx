@@ -23,7 +23,7 @@ export default function NavbarMobile() {
   return (
     <Sheet>
       <SheetTrigger className="block md:hidden" asChild>
-        <Button  variant="outline">
+        <Button variant="outline">
           <CiMenuBurger />
         </Button>
       </SheetTrigger>
@@ -114,8 +114,15 @@ const NavbarMobileSession = () => {
       </figure>
 
       <div className="mt-4 w-full flex justify-center gap-4">
-        {navigatorUserLinks.map((link) =>
-          pathName === link.href ? (
+        {navigatorUserLinks.map((link) => {
+          const isAdminLink = link.allowFor === "admin" && user.role !== "admin";
+          const isActive = pathName === link.href;
+
+          if (isAdminLink) {
+            return null;
+          }
+
+          return isActive ? (
             <Button
               key={link.href}
               className="flex items-center gap-2 transition-all duration-300 text-left bg-white hover:bg-white cursor-default"
@@ -123,18 +130,13 @@ const NavbarMobileSession = () => {
               {link.icon}
             </Button>
           ) : (
-            <Link
-              key={link.href}
-              href={link.href}
-              title={link.text}
-              className="text-left"
-            >
+            <Link key={link.href} href={link.href} title={link.text} className="text-left">
               <Button className="w-full flex items-center gap-2 transition-all duration-300 text-left hover:bg-white bg-slate-200">
                 {link.icon}
               </Button>
             </Link>
-          )
-        )}
+          );
+        })}
       </div>
 
       <Button

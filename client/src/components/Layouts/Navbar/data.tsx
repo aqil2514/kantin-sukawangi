@@ -25,6 +25,7 @@ export const navigatorUserLinks: General.LinkAttributes[] = [
     text: "Admin Dashboard",
     icon: <FaUserShield size={18} className="text-green-500" />,
     target: "_self",
+    allowFor: "admin",
     rel: "noopener noreferrer", // Anda dapat menyesuaikan jika diperlukan
   },
   // Profile
@@ -33,6 +34,7 @@ export const navigatorUserLinks: General.LinkAttributes[] = [
     text: "Profile",
     icon: <FaUser size={18} className="text-red-500" />,
     target: "_self",
+    allowFor:"all",
     rel: "noopener noreferrer",
   },
   // Orders
@@ -41,6 +43,7 @@ export const navigatorUserLinks: General.LinkAttributes[] = [
     text: "Orders",
     icon: <FaBox size={18} className="text-yellow-500" />,
     target: "_self",
+    allowFor:"all",
     rel: "noopener noreferrer",
   },
   // Settings
@@ -49,6 +52,7 @@ export const navigatorUserLinks: General.LinkAttributes[] = [
     text: "Settings",
     icon: <FaCog size={18} className="text-blue-500" />,
     target: "_self",
+    allowFor:"all",
     rel: "noopener noreferrer",
   },
 ];

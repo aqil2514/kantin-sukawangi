@@ -39,7 +39,7 @@ namespace General {
     redirect_url: string;
     status: Transaction.TransactionStatus;
     statusMessage: string;
-    cart_items: General.CartItem[]
+    cart_items: General.CartItem[];
   }
 
   export interface CartItem {
@@ -100,6 +100,12 @@ namespace General {
      * Icon yang akan ditampilkan
      */
     icon?: JSX.Element;
+
+    /**
+     * User yang dapat mengakses ini
+     * Default : All
+     */
+    allowFor?: "admin" | "member" | "all";
   }
 
   export interface SortOption {
