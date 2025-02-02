@@ -1,4 +1,6 @@
+import Link from "next/link";
 import Container from "@/components/Layouts/Container";
+import { Button } from "@/components/ui/button";
 
 export default function Admin() {
   return (
@@ -9,6 +11,12 @@ export default function Admin() {
       <div>
         <p>Ini adalah halaman khusus untuk admin.</p>
       </div>
+      {/* Tombol yang mengarahkan ke /admin/sanity */}
+      <Link href="/admin/sanity">
+        <Button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
+          Akses Studio
+        </Button>
+      </Link>
     </Container>
   );
 }

@@ -1,7 +1,9 @@
-import type {StructureResolver} from 'sanity/structure'
+import { StructureResolver } from "sanity/structure";
 
-// https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S) =>
   S.list()
-    .title('Content')
-    .items(S.documentTypeListItems())
+    .title('Base')
+    .items([
+      S.documentTypeListItem("product").title("Produk"),
+      S.divider(),
+    ]);
