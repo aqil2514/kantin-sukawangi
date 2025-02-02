@@ -20,4 +20,11 @@ namespace Page {
     inputTokenPlaceholder: string;
     sendToken: string;
   }
+
+  export interface AboutUs {
+    aboutUsTitle: string;
+    greetings: string; // Slogan perusahaan
+    companyDescription: string; // Deskripsi singkat tentang perusahaan
+    companyImage: string; // Informasi kontak
+  }
 }

@@ -2,6 +2,7 @@ import { Globe, Home } from "lucide-react";
 import { MdFastfood } from "react-icons/md";
 import { StructureResolver } from "sanity/structure";
 import { FaShoppingCart } from "react-icons/fa";
+import { FcAbout } from "react-icons/fc";
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -19,9 +20,13 @@ export const structure: StructureResolver = (S) =>
                 .child(S.document().schemaType("home").documentId("home"))
                 .icon(Home),
               S.listItem()
-                .title("Cart")
+                .title("Keranjang")
                 .child(S.document().schemaType("cart").documentId("cart"))
                 .icon(FaShoppingCart),
+              S.listItem()
+                .title("Tentang Kami")
+                .child(S.document().schemaType("aboutUs").documentId("aboutUs"))
+                .icon(FcAbout),
             ])
         ),
       S.documentTypeListItem("product").title("Produk").icon(MdFastfood),
