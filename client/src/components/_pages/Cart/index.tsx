@@ -3,9 +3,9 @@ import Checkout from "./Checkout";
 import Products from "./Products";
 import CartProvider from "./Providers";
 
-export default function Cart() {
+export default function Cart({ data }: { data: Page.Cart }) {
   return (
-    <CartProvider>
+    <CartProvider data={data}>
       <div className="px-4 pt-40 pb-12 min-h-screen bg-gray-50">
         <h1 className="text-2xl font-bold mb-6">Keranjang Anda</h1>
 

@@ -1,13 +1,16 @@
-import { servedProductList } from "@/sanity/fetch/products";
+"use client";
 import HeroSection from "./_Hero";
 import Products from "./_Products";
+import HomeProvider, { HomeContextProps } from "./Provider";
 
-export default async function LandingPage() {
-  const servedProducts = await servedProductList();
+export default function LandingPage({
+  data,
+  servedProducts,
+}: HomeContextProps) {
   return (
-    <>
+    <HomeProvider data={data} servedProducts={servedProducts}>
       <HeroSection />
-      <Products products={servedProducts} />
-    </>
+      <Products />
+    </HomeProvider>
   );
 }

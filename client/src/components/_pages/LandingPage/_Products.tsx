@@ -5,12 +5,10 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useCartStore } from "@/lib/store-cart";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
+import { useHomeData } from "./Provider";
 
-export default function Products({
-  products,
-}: {
-  products: Product.ProductAttributes[];
-}) {
+export default function Products() {
+  const { servedProducts: products } = useHomeData();
   const { cartItems, addToCart, increaseCartItem, decreaseCartItem } =
     useCartStore();
 

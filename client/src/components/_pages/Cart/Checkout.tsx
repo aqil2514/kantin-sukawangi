@@ -13,7 +13,7 @@ type FormData = {
 };
 
 export default function Checkout() {
-  const {setValue, value} = useCartContext()
+  const { setValue, value } = useCartContext();
   const renderPage: Record<string, React.ReactNode> = {
     checkout: <CheckoutSection />,
     continue: <ContinueSection />,
@@ -29,6 +29,7 @@ export default function Checkout() {
 
 const CheckoutSection = () => {
   const { cartItems } = useCartStore();
+  const { data } = useCartContext();
 
   const totalPrice = cartItems.length
     ? cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0)
@@ -37,36 +38,36 @@ const CheckoutSection = () => {
 
   return (
     <div className="py-4 rounded-lg p-6">
-      <h3 className="text-lg font-bold mb-4">Rincian Pemesanan</h3>
+      <h3 className="text-lg font-bold mb-4">{data.detailOrder}</h3>
 
       {cartItems.length > 0 ? (
         <>
           <div className="flex justify-between text-gray-700">
-            <strong>Total Belanja:</strong>
+            <strong>{data.amountOrder}:</strong>
             <p className="font-medium">Rp {totalPrice.toLocaleString()}</p>
           </div>
           <div className="flex justify-between text-gray-700">
-            <strong>Total Ongkir:</strong>
+            <strong>{data.amountShip}:</strong>
             <p className="font-medium">Rp {costPrice}</p>
           </div>
           <div className="flex justify-between text-gray-700">
-            <strong>Estimasi Total:</strong>
+            <strong>{data.totalAmount}:</strong>
             <p className="font-medium">
               Rp {(totalPrice + costPrice).toLocaleString()}
             </p>
           </div>
           <Link href={"/checkout"}>
             <Button className="mt-4 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
-              Checkout
+              {data.checkout}
             </Button>
           </Link>
         </>
       ) : (
         <div className="text-center text-gray-500">
-          <p className="mb-4">Keranjang Anda kosong.</p>
+          <p className="mb-4">{data.noItems}</p>
           <Link href={"/products"}>
             <Button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-              Mulai Belanja
+              {data.shoppingCta}
             </Button>
           </Link>
         </div>
@@ -76,10 +77,11 @@ const CheckoutSection = () => {
 };
 
 const ContinueSection = () => {
+  const {data} = useCartContext()
   const [isLoading, setIsLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const [redirectUrl, setRedirectUrl] = useState<string | null>(null); // URL Redirect
-  const {setItems} = useCartContext()
+  const { setItems } = useCartContext();
   const {
     register,
     handleSubmit,
@@ -90,7 +92,7 @@ const ContinueSection = () => {
   const onSubmit = async (data: FormData) => {
     setIsLoading(true);
     setResponseMessage(null);
-    setRedirectUrl(null); // Reset URL setiap kali form disubmit
+    setRedirectUrl(null);
 
     try {
       const { data: resData } = await axios.get<
@@ -109,8 +111,8 @@ const ContinueSection = () => {
       } else {
         setResponseMessage(`${statusMessage}`);
       }
-      
-      setItems(cart_items)
+
+      setItems(cart_items);
     } catch (error) {
       console.error(error);
       setResponseMessage(
@@ -123,14 +125,14 @@ const ContinueSection = () => {
 
   return (
     <div className="py-4 p-6 bg-white shadow rounded-lg">
-      <h3 className="text-lg font-bold mb-4">Lanjutkan Pembayaran</h3>
+      <h3 className="text-lg font-bold mb-4">{data.continueOrder}</h3>
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label
             htmlFor="token"
             className="block text-gray-700 font-medium mb-2"
           >
-            Token Pembayaran
+            {data.orderToken}
           </label>
           <input
             type="text"
@@ -142,7 +144,7 @@ const ContinueSection = () => {
                 message: "Token harus memiliki minimal 8 karakter",
               },
             })}
-            placeholder="Masukkan Token Pembayaran atau Order Id"
+            placeholder={data.inputTokenPlaceholder}
             className={`w-full px-4 py-2 border rounded-lg ${
               errors.token
                 ? "border-red-500 focus:ring-red-500"
@@ -162,7 +164,7 @@ const ContinueSection = () => {
           }`}
           disabled={isLoading}
         >
-          {isLoading ? "Mengirim..." : "Kirim Token"}
+          {isLoading ? "Mengirim..." : data.sendToken}
         </button>
       </form>
 
@@ -198,6 +200,7 @@ const Radio = ({
 }: {
   setValue: React.Dispatch<SetStateAction<ValueState>>;
 }) => {
+  const { data } = useCartContext();
   return (
     <RadioGroup
       className="flex gap-4"
@@ -206,11 +209,11 @@ const Radio = ({
     >
       <div className="flex items-center space-x-2">
         <RadioGroupItem value="checkout" id="r1" />
-        <Label htmlFor="r1">Checkout</Label>
+        <Label htmlFor="r1">{data.checkout}</Label>
       </div>
       <div className="flex items-center space-x-2">
         <RadioGroupItem value="continue" id="r2" />
-        <Label htmlFor="r2">Lanjutkan Pembayaran</Label>
+        <Label htmlFor="r2">{data.continueOrder}</Label>
       </div>
     </RadioGroup>
   );
