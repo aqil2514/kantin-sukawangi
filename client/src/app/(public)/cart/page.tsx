@@ -1,4 +1,4 @@
-import Cart from "@/components/_pages/Cart";
+import Cart from "@/components/_pages/(Public)/Cart";
 import { getCartData } from "@/sanity/fetch/page";
 import { Metadata } from "next";
 

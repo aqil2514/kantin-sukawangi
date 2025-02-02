@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import Authentication from "@/components/_pages/Auth";
+import Authentication from "@/components/_pages/(Protected)/Auth";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
 

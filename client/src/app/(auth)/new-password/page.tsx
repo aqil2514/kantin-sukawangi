@@ -1,4 +1,4 @@
-import NewPassword from "@/components/_pages/NewPassword";
+import NewPassword from "@/components/_pages/(Protected)/NewPassword";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {

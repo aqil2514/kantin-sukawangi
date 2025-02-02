@@ -1,4 +1,4 @@
-import LandingPage from "@/components/_pages/LandingPage";
+import LandingPage from "@/components/_pages/(Public)/LandingPage";
 import { getHomeData } from "@/sanity/fetch/page";
 import { servedProductList } from "@/sanity/fetch/products";
 import { Metadata } from "next";

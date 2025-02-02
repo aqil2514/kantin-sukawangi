@@ -1,5 +1,5 @@
-import Products from "@/components/_pages/Products";
-import ProductsProvider from "@/components/_pages/Products/Provider";
+import Products from "@/components/_pages/(Public)/Products";
+import ProductsProvider from "@/components/_pages/(Public)/Products/Provider";
 import { servedProductList } from "@/sanity/fetch/products";
 import { Metadata } from "next";
 

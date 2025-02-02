@@ -1,4 +1,4 @@
-import Checkout from "@/components/_pages/Checkout";
+import Checkout from "@/components/_pages/(Public)/Checkout";
 import { Metadata } from "next";
 
 export const metadata:Metadata = {

@@ -1,5 +1,5 @@
 import { auth } from "@/auth";
-import Admin from "@/components/_pages/Admin";
+import Admin from "@/components/_pages/(Admin)/Admin";
 import { Metadata } from "next";
 
 export async function generateMetadata(): Promise<Metadata> {
