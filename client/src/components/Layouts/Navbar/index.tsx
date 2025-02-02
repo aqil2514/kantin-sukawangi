@@ -18,7 +18,7 @@ export default function Navbar() {
 
   // Memoize navigatorLinks to optimize performance
   const links = useMemo(() => navigatorLinks, []);
-  
+
   const [showDropdown, setShowDropdown] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -39,11 +39,13 @@ export default function Navbar() {
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  if (pathName.startsWith("/admin/sanity")) return null;
 
   return (
     <header className="w-full fixed top-0 left-0 z-50">
@@ -105,7 +107,9 @@ export default function Navbar() {
               </button>
 
               {showDropdown && (
-                <div ref={dropdownRef}> {/* Menambahkan ref pada dropdown */}
+                <div ref={dropdownRef}>
+                  {" "}
+                  {/* Menambahkan ref pada dropdown */}
                   <DropdownSessionMenu />
                 </div>
               )}
