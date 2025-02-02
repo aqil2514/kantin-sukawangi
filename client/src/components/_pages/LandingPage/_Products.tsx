@@ -1,14 +1,18 @@
 "use client";
 import Image from "next/image";
-import { products } from "./misc";
 import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useCartStore } from "@/lib/store-cart";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 
-export default function Products() {
-  const { cartItems, addToCart, increaseCartItem, decreaseCartItem } = useCartStore();
+export default function Products({
+  products,
+}: {
+  products: Product.ProductAttributes[];
+}) {
+  const { cartItems, addToCart, increaseCartItem, decreaseCartItem } =
+    useCartStore();
 
   return (
     <div className="min-h-screen bg-slate-200 py-4 px-8">
@@ -46,11 +50,17 @@ export default function Products() {
                 </p>
                 {selectedProduct ? (
                   <div className="flex gap-2">
-                    <Button variant={"destructive"} onClick={() => decreaseCartItem(String(product.id))}>
+                    <Button
+                      variant={"destructive"}
+                      onClick={() => decreaseCartItem(String(product.id))}
+                    >
                       <FaAngleDown />
                     </Button>
                     <p className="my-auto">{selectedProduct.quantity}</p>
-                    <Button variant={"destructive"} onClick={() => increaseCartItem(String(product.id))}>
+                    <Button
+                      variant={"destructive"}
+                      onClick={() => increaseCartItem(String(product.id))}
+                    >
                       <FaAngleUp />
                     </Button>
                   </div>

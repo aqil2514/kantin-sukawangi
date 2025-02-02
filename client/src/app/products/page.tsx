@@ -1,16 +1,18 @@
-import { products } from "@/components/_pages/LandingPage/misc";
 import Products from "@/components/_pages/Products";
 import ProductsProvider from "@/components/_pages/Products/Provider";
+import { servedProductList } from "@/sanity/fetch/products";
 import { Metadata } from "next";
 
-export const metadata:Metadata = {
-  title:"Produk",
-  description:"Produk-produk yang ada di Kantin Sukawangi"
-}
+export const metadata: Metadata = {
+  title: "Produk",
+  description: "Produk-produk yang ada di Kantin Sukawangi",
+};
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const productData = await servedProductList();
+
   return (
-    <ProductsProvider productsLists={products}>
+    <ProductsProvider productsLists={productData}>
       <Products />
     </ProductsProvider>
   );
