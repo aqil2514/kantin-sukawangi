@@ -100,7 +100,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { CiMap } from "react-icons/ci";
 import { FaInstagram, FaWhatsapp } from "react-icons/fa";
-import { navigatorLinks } from "./misc";
+import { navigatorLinks } from "./Navbar/data";
 import { usePathname } from "next/navigation";
 import { useMemo } from "react";
 

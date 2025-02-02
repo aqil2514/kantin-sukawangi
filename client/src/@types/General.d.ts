@@ -95,6 +95,11 @@ namespace General {
      * Contoh: "Klik di sini"
      */
     text?: string;
+
+    /**
+     * Icon yang akan ditampilkan
+     */
+    icon?: JSX.Element;
   }
 
   export interface SortOption {

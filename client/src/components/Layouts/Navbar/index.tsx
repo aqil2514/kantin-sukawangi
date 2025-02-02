@@ -100,7 +100,7 @@ import { FaWhatsapp, FaUser, FaKey } from "react-icons/fa";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { navigatorLinks } from "../misc";
+import { navigatorLinks } from "./data";
 import { Button } from "@/components/ui/button";
 import NavbarCarts from "./NavbarCarts";
 import NavbarMobile from "./NavbarMobile";
@@ -193,7 +193,7 @@ export default function Navbar() {
               <button
                 ref={buttonRef} // Menambahkan ref pada tombol
                 onClick={handleDropdownToggle}
-                className="flex items-center gap-2 bg-gray-200 rounded-full p-2 hover:bg-gray-300"
+                className="hidden md:flex items-center gap-2 bg-gray-200 rounded-full p-2 hover:bg-gray-300"
               >
                 <FaUser size={24} />
               </button>
