@@ -23,11 +23,11 @@ export default function NavbarMobile() {
   return (
     <Sheet>
       <SheetTrigger className="block md:hidden" asChild>
-        <Button variant="outline">
+        <Button  variant="outline">
           <CiMenuBurger />
         </Button>
       </SheetTrigger>
-      <SheetContent side={"left"}>
+      <SheetContent side={"left"} className="w-screen">
         <SheetHeader className="my-2 ">
           <SheetTitle>
             <Link href={"/"}>
@@ -37,7 +37,7 @@ export default function NavbarMobile() {
             </Link>
           </SheetTitle>
         </SheetHeader>
-        <ScrollArea className="h-[650px] py-4">
+        <ScrollArea className="h-screen pb-28">
           <NavbarMobileSession />
           <NavbarMobileNavigation />
           <SheetFooter className="mt-4">

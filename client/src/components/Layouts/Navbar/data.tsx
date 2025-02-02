@@ -8,9 +8,11 @@ import {
   FaBox,
   FaCog,
 } from "react-icons/fa";
+import { FaCartShopping } from "react-icons/fa6";
 
 export const navigatorLinks: General.LinkAttributes[] = [
   { text: "Home", href: "/", icon: <FaHome /> },
+  { text: "Keranjang", href: "/cart", icon: <FaCartShopping /> },
   { text: "Menu", href: "/products", icon: <FaUtensils /> },
   { text: "About", href: "/about", icon: <FaInfoCircle /> },
   { text: "Contact", href: "/contact", icon: <FaPhoneAlt /> },

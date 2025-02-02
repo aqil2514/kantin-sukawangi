@@ -26,7 +26,7 @@ export default function NavbarCarts() {
       <SheetTrigger asChild>
         <Button
           variant="outline"
-          className="relative hover:bg-gray-100 transition-all duration-300"
+          className="hidden md:block relative hover:bg-gray-100 transition-all duration-300"
         >
           {/* Ikon Keranjang */}
           <FaCartShopping />
