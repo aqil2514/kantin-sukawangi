@@ -50,6 +50,10 @@ namespace General {
     imageUrl?: string; // (Opsional) URL gambar produk
   }
 
+  export interface PortableText{
+    [key: string]: unknown;
+    _type: string;
+  }
   /**Representasi dari kesalahan validasi, berisi jalur properti dan pesan kesalahan.*/
   export interface ValidationError {
     /**

@@ -10,7 +10,7 @@ export async function getHomeData() {
   )) as Page.Home;
 }
 
-export async function getCartData(){
+export async function getCartData() {
   const groq = `*[_type == "cart"] {
   pageTitle,
   noItems,
@@ -26,6 +26,21 @@ export async function getCartData(){
   inputTokenPlaceholder,
   sendToken
 }[0]
-`
-  return await client.fetch(groq) as Page.Cart
+`;
+  return (await client.fetch(groq)) as Page.Cart;
+}
+
+export async function getAboutPageData() {
+  const groq = `*[_type == "aboutUs"][0] {
+  aboutUsTitle,
+  greetings,
+  companyDescription,
+  "companyImage": companyImage.asset->url,
+  companyVideo,
+  companyVision,
+  companyMission
+}
+`;
+
+  return (await client.fetch(groq)) as Page.AboutUs;
 }

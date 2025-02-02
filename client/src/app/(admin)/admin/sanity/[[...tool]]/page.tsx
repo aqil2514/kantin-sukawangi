@@ -1,7 +1,7 @@
 import { NextStudio } from "next-sanity/studio";
 import { auth } from "@/auth";
 import { notFound } from "next/navigation";
-import config from "../../../../../sanity.config";
+import config from "../../../../../../sanity.config";
 
 export const dynamic = "force-dynamic";
 

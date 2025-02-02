@@ -1,10 +1,14 @@
 import About from "@/components/_pages/(Public)/About";
+import { getAboutPageData } from "@/sanity/fetch/page";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Tentang Kami",
 };
 
-export default function AboutPage() {
-  return <About />;
+export default async function AboutPage() {
+  const staticData = await getAboutPageData();
+  console.log(staticData);
+  
+  return <About staticData={staticData} />;
 }

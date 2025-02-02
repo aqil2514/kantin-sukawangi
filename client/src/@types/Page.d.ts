@@ -24,7 +24,10 @@ namespace Page {
   export interface AboutUs {
     aboutUsTitle: string;
     greetings: string; // Slogan perusahaan
-    companyDescription: string; // Deskripsi singkat tentang perusahaan
+    companyDescription: General.PortableText; // Deskripsi singkat tentang perusahaan
     companyImage: string; // Informasi kontak
+    companyVideo: string;
+    companyVision: General.PortableText;
+    companyMission: General.PortableText;
   }
 }

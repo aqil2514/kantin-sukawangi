@@ -1,6 +1,5 @@
 import { defineField, defineType } from "sanity";
 
-//TODO : Lanjutin ini
 export default defineType({
   name: "aboutUs",
   title: "Tentang Kami",
@@ -23,12 +22,8 @@ export default defineType({
     defineField({
       name: "companyDescription",
       title: "Deskripsi Kantin",
-      type: "array",  // Menggunakan array untuk block content
-      of: [
-        {
-          type: "block",  // Menentukan tipe block content
-        },
-      ],
+      type: "array",
+      of: [{ type: "block" }],
       description: "Deskripsi singkat tentang Kantin",
       validation: (Rule) => Rule.required(),
     }),
@@ -36,10 +31,28 @@ export default defineType({
       name: "companyImage",
       title: "Gambar Kantin",
       type: "image",
-      description: "Gambar representasi kantin (misal: logo atau foto kantor)",
-      options: {
-        hotspot: true, // Memungkinkan untuk crop dan zoom gambar
-      },
+      description: "Gambar representasi kantin (misal: logo atau foto kantin)",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "companyVideo",
+      title: "Video Kantin (YouTube)",
+      type: "url",
+      description: "Masukkan URL video YouTube untuk ditampilkan di iframe",
+    }),
+    defineField({
+      name: "companyVision",
+      title: "Visi Kantin",
+      type: "array",
+      of: [{ type: "block" }],
+      description: "Visi perusahaan atau kantin yang ingin dicapai",
+    }),
+    defineField({
+      name: "companyMission",
+      title: "Misi Kantin",
+      type: "array",
+      of: [{ type: "block" }],
+      description: "Misi perusahaan atau kantin untuk mencapai visi",
     }),
   ],
 });
