@@ -44,3 +44,22 @@ export async function getAboutPageData() {
 
   return (await client.fetch(groq)) as Page.AboutUs;
 }
+
+export async function getContactPage(){
+  const groq=`*[_type == "contactPage"][0] {
+  title,
+  description,
+  address,
+  phone,
+  emails[]{
+    email
+  },
+  map,
+  socialMedia[] {
+    platform,
+    url
+  }
+}`
+
+return await client.fetch(groq) as Page.ContactPage
+}

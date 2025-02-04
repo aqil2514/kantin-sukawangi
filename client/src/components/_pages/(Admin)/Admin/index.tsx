@@ -12,7 +12,7 @@ export default function Admin() {
         <p>Ini adalah halaman khusus untuk admin.</p>
       </div>
       {/* Tombol yang mengarahkan ke /admin/sanity */}
-      <Link href="/admin/sanity">
+      <Link href="/admin/sanity" target="_blank">
         <Button className="mt-4 bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600">
           Akses Studio
         </Button>

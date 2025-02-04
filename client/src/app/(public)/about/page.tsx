@@ -8,7 +8,6 @@ export const metadata: Metadata = {
 
 export default async function AboutPage() {
   const staticData = await getAboutPageData();
-  console.log(staticData);
   
   return <About staticData={staticData} />;
 }

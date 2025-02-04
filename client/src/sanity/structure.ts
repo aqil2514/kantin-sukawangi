@@ -3,6 +3,7 @@ import { MdFastfood } from "react-icons/md";
 import { StructureResolver } from "sanity/structure";
 import { FaShoppingCart } from "react-icons/fa";
 import { FcAbout } from "react-icons/fc";
+import { IoMdContact } from "react-icons/io";
 
 export const structure: StructureResolver = (S) =>
   S.list()
@@ -27,6 +28,10 @@ export const structure: StructureResolver = (S) =>
                 .title("Tentang Kami")
                 .child(S.document().schemaType("aboutUs").documentId("aboutUs"))
                 .icon(FcAbout),
+              S.listItem()
+                .title("Kontak")
+                .child(S.document().schemaType("contactPage").documentId("contactPage"))
+                .icon(IoMdContact),
             ])
         ),
       S.documentTypeListItem("product").title("Produk").icon(MdFastfood),

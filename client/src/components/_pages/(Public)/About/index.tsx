@@ -126,17 +126,11 @@ export default function About({ staticData }: { staticData: Page.AboutUs }) {
 
 const ListComponent: PortableTextComponents = {
   list: {
-    //@ts-expect-error Fix nanti
-    bullet: (props: { children: React.ReactNode }) => (
-      <ul className="mt-xl">{props.children}</ul>
-    ),
-    //@ts-expect-error Fix nanti
-    number: (props: { children: React.ReactNode }) => (
-      <ol className="mt-lg">{props.children}</ol>
-    ),
-    //@ts-expect-error Fix nanti
-    checkmarks: (props: { children: React.ReactNode }) => (
-      <ol className="m-auto text-lg">{props.children}</ol>
-    ),
+    bullet: ({ children }) => <ul className="list-disc ml-5">{children}</ul>,
+    number: ({ children }) => <ol className="list-decimal ml-5">{children}</ol>,
+  },
+  listItem: {
+    bullet: ({ children }) => <li className="mb-2">{children}</li>,
+    number: ({ children }) => <li className="mb-2">{children}</li>,
   },
 };
