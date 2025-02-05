@@ -7,6 +7,7 @@ import { useCartStore } from "@/lib/store-cart";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useHomeData } from "./Provider";
 
+// TODO : Ini tampilannya juga berantakan
 export default function Products() {
   const { servedProducts: products } = useHomeData();
   const { cartItems, addToCart, increaseCartItem, decreaseCartItem } =

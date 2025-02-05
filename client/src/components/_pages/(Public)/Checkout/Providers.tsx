@@ -1,3 +1,4 @@
+import { ReadonlyURLSearchParams, useSearchParams } from "next/navigation";
 import React, {
   createContext,
   SetStateAction,
@@ -16,6 +17,7 @@ interface WithProductContextProps {
   setPaymentStatus: React.Dispatch<
     SetStateAction< Transaction.TransactionStatus>
   >;
+  searchParams: ReadonlyURLSearchParams
 }
 
 const WithProductContext = createContext<WithProductContextProps>(
@@ -30,7 +32,8 @@ export default function WithProductProviders({
   const [token, setToken] = useState<string>("");
   const [redirectUrl, setRedirectUrl] = useState<string>("");
   const [orderId, setOrderId] = useState<string>("");
-  const [paymentStatus, setPaymentStatus] = useState<Transaction.TransactionStatus>("nothing")
+  const [paymentStatus, setPaymentStatus] = useState<Transaction.TransactionStatus>("nothing");
+  const searchParams = useSearchParams()
 
   const value: WithProductContextProps = {
     orderId,
@@ -40,7 +43,8 @@ export default function WithProductProviders({
     setToken,
     token,
     paymentStatus,
-    setPaymentStatus
+    setPaymentStatus,
+    searchParams
   };
 
   return (

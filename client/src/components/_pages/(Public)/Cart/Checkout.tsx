@@ -2,11 +2,12 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useCartStore } from "@/lib/store-cart";
-import axios from "axios";
+import axios, { isAxiosError } from "axios";
 import Link from "next/link";
-import React, { SetStateAction, useState } from "react";
+import React, { SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useCartContext, ValueState } from "./Providers";
+import { useRouter } from "next/navigation";
 
 type FormData = {
   token: string;
@@ -21,6 +22,7 @@ export default function Checkout() {
 
   return (
     <div className="w-full p-4 shadow-md bg-white rounded-xl">
+      {/* TODO : Ganti jadi pakek selec ajah. Nanti, tambahin juga chat via WA */}
       <Radio setValue={setValue} />
       {renderPage[value]}
     </div>
@@ -76,12 +78,18 @@ const CheckoutSection = () => {
   );
 };
 
+// TODO : Komponen masih belum siap. Ini agak panjang dan lumayan ribet nanganinnya, fokus ke yang lain dulu ajah
 const ContinueSection = () => {
-  const {data} = useCartContext()
+  const { data } = useCartContext();
   const [isLoading, setIsLoading] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
-  const [redirectUrl, setRedirectUrl] = useState<string | null>(null); // URL Redirect
+  const [redirectUrl, setRedirectUrl] = useState<string | null>(null);
+  const [countdown, setCountdown] = useState<number | null>(null);
   const { setItems } = useCartContext();
+  const router = useRouter();
+
+  const isFeatureAvailable = false; // Ubah ke `true` jika ingin mengaktifkan fitur
+
   const {
     register,
     handleSubmit,
@@ -89,10 +97,23 @@ const ContinueSection = () => {
     reset,
   } = useForm<FormData>();
 
+  useEffect(() => {
+    if (countdown === null || countdown <= 0) return;
+
+    const timer = setTimeout(() => {
+      setCountdown((prev) => (prev !== null ? prev - 1 : null));
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [countdown]);
+
   const onSubmit = async (data: FormData) => {
+    if (!isFeatureAvailable) return; // **Mencegah eksekusi jika fitur belum aktif**
+
     setIsLoading(true);
     setResponseMessage(null);
     setRedirectUrl(null);
+    setCountdown(null);
 
     try {
       const { data: resData } = await axios.get<
@@ -102,18 +123,38 @@ const ContinueSection = () => {
       });
 
       if (!resData.data) return;
-      const { status, redirect_url, statusMessage, cart_items } = resData.data;
+      const { status, statusMessage, cart_items, redirect_url, order_id } =
+        resData.data;
+
+      const token = redirect_url ? redirect_url.split("/").pop() : null;
+      const items = JSON.stringify(cart_items);
 
       if (status === "awaiting_payment" || status === "pending") {
-        setRedirectUrl(`${redirect_url}`);
-        setResponseMessage(`Link pembayaran berhasil dibuat`);
+        setResponseMessage("Link pembayaran ditemukan, sedang mengalihkan...");
         reset();
+        setCountdown(3);
+
+        setTimeout(() => {
+          sessionStorage.setItem(
+            "checkoutData",
+            JSON.stringify({ token, order_id, redirect_url, items })
+          );
+          router.push(`/checkout`);
+        }, 3000);
       } else {
-        setResponseMessage(`${statusMessage}`);
+        setResponseMessage(statusMessage);
       }
 
       setItems(cart_items);
     } catch (error) {
+      if (isAxiosError(error)) {
+        const status = error.response?.status;
+
+        if (status === 404) {
+          setResponseMessage("Token tidak valid");
+          return;
+        }
+      }
       console.error(error);
       setResponseMessage(
         "Terjadi kesalahan. Token tidak valid atau server bermasalah."
@@ -126,6 +167,14 @@ const ContinueSection = () => {
   return (
     <div className="py-4 p-6 bg-white shadow rounded-lg">
       <h3 className="text-lg font-bold mb-4">{data.continueOrder}</h3>
+
+      {/* **Tambahkan Peringatan jika fitur belum tersedia** */}
+      {!isFeatureAvailable && (
+        <p className="mb-4 p-3 bg-yellow-100 text-yellow-700 rounded">
+          🚧 Fitur ini dalam pengembangan. Harap tunggu update selanjutnya.
+        </p>
+      )}
+
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         <div>
           <label
@@ -150,6 +199,7 @@ const ContinueSection = () => {
                 ? "border-red-500 focus:ring-red-500"
                 : "border-gray-300 focus:ring-blue-500"
             }`}
+            disabled={!isFeatureAvailable} // **Nonaktifkan input jika fitur belum siap**
           />
           {errors.token && (
             <p className="text-red-500 text-sm mt-1">{errors.token.message}</p>
@@ -158,30 +208,34 @@ const ContinueSection = () => {
         <button
           type="submit"
           className={`w-full text-white py-2 rounded-lg transition ${
-            isLoading
+            isLoading || !isFeatureAvailable
               ? "bg-gray-400 cursor-not-allowed"
               : "bg-blue-500 hover:bg-blue-600"
           }`}
-          disabled={isLoading}
+          disabled={isLoading || !isFeatureAvailable} // **Nonaktifkan tombol jika fitur belum siap**
         >
-          {isLoading ? "Mengirim..." : data.sendToken}
+          {isFeatureAvailable
+            ? isLoading
+              ? "Mengirim..."
+              : data.sendToken
+            : "Fitur Belum Tersedia"}
         </button>
       </form>
 
-      {/* Pesan Respon */}
       {responseMessage && (
         <p
-          className={`mt-4 text-sm ${
-            responseMessage.includes("berhasil")
-              ? "text-green-500"
-              : "text-red-500"
-          }`}
+          className={`mt-4 text-sm ${responseMessage.includes("ditemukan") ? "text-green-500" : "text-red-500"}`}
         >
           {responseMessage}
         </p>
       )}
 
-      {/* Tombol Redirect */}
+      {countdown !== null && countdown > 0 && (
+        <p className="mt-2 text-blue-500 text-sm">
+          Anda akan dialihkan dalam {countdown} detik...
+        </p>
+      )}
+
       {redirectUrl && (
         <a
           href={redirectUrl}

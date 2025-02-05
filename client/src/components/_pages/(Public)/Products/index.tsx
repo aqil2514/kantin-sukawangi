@@ -4,7 +4,7 @@ import Sidebar from "./_Sidebar";
 
 export default function Products() {
   return (
-    <div className="px-4 pt-36 pb-12 grid grid-cols-1 md:grid-cols-[0_20%_auto] h-screen">
+    <div className="px-2 md:px-4 pt-36 pb-12 block md:grid grid-cols-1 md:grid-cols-[0_20%_auto] h-screen">
       <MobileSidebar />
       <Sidebar />
       <ProductsLists />

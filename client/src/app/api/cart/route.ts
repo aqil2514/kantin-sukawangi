@@ -16,15 +16,17 @@ export async function GET(req: NextRequest) {
 
     const redirect_url = `https://app.sandbox.midtrans.com/snap/v4/redirection/${data.data?.transaction_reference}`;
 
-    if(!data.data) throw new Error("Terjadi Kesalahan")
+    if (!data.data) throw new Error("Terjadi Kesalahan");
 
     const response: General.ApiResponse<General.CartGetApiResponse> = {
       message: data.message,
       data: {
         redirect_url,
         status: data.data.status,
+        token: data.data.transaction_reference as string,
         statusMessage: data.data.status_message ?? "",
-        cart_items: data.data.order_details?.items as General.CartItem[]
+        cart_items: data.data.order_details?.items as General.CartItem[],
+        order_id: data.data.order_id,
       },
     };
 

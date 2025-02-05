@@ -36,10 +36,12 @@ namespace General {
   }
 
   export interface CartGetApiResponse {
-    redirect_url: string;
-    status: Transaction.TransactionStatus;
-    statusMessage: string;
-    cart_items: General.CartItem[];
+    readonly redirect_url: string;
+    readonly status: Transaction.TransactionStatus;
+    readonly statusMessage: string;
+    readonly cart_items: General.CartItem[];
+    readonly order_id: string;
+    readonly token : string;
   }
 
   export interface CartItem {

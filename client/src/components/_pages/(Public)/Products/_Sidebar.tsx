@@ -11,6 +11,7 @@ export default function Sidebar() {
   const { inputNameHandler, isActive, resetHandler, searchTerm, sortHandler } =
     useProductFilter();
 
+    // TODO : Perbaiki lagi, ini kalo di mobile berantakan
   return (
     <ScrollArea className="hidden md:block p-4 border-2 border-double rounded-xl border-slate-500">
       <Input

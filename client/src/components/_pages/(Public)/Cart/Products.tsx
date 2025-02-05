@@ -29,14 +29,6 @@ export default function Products() {
                 ? "Keranjang Anda kosong."
                 : "Silahkan masukkan order id atau token pembayaran untuk melihat pesanan anda"}
             </p>
-            {/* {value === "checkout" && (
-              <Button
-                className="mt-4 bg-blue-500 text-white rounded-md px-4 py-2 hover:bg-blue-600"
-                onClick={checkout}
-              >
-                Mulai Belanja
-              </Button>
-            )} */}
           </div>
         ) : (
           items.map((item) => (
