@@ -7,14 +7,13 @@ import { useCartStore } from "@/lib/store-cart";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useHomeData } from "./Provider";
 
-// TODO : Ini tampilannya juga berantakan
 export default function Products() {
   const { servedProducts: products } = useHomeData();
   const { cartItems, addToCart, increaseCartItem, decreaseCartItem } =
     useCartStore();
 
   return (
-    <div className="min-h-screen bg-slate-200 py-4 px-8">
+    <div className="min-h-screen bg-slate-200 py-4 px-0 md:px-8">
       <h3 className="text-center font-lora font bold text-red-500 text-xl md:text-3xl lg:text-4xl font-bold">
         Produk <span className="text-yellow-500">Kantin Sukawangi</span>
       </h3>

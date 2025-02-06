@@ -5,7 +5,7 @@ import React, {
   useState,
 } from "react";
 
-export type ValueState = "checkout" | "continue";
+export type ValueState = "checkout" | "continue" | "chatWa";
 
 interface CartProviderProps {
   value: ValueState;

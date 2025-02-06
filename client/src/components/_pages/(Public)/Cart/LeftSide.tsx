@@ -25,7 +25,7 @@ export default function Products() {
         {items.length === 0 ? (
           <div className="text-center">
             <p className="text-gray-500">
-              {value === "checkout"
+              {value === "checkout" || value === "chatWa"
                 ? "Keranjang Anda kosong."
                 : "Silahkan masukkan order id atau token pembayaran untuk melihat pesanan anda"}
             </p>
@@ -58,7 +58,7 @@ export default function Products() {
                 <p className="font-medium text-gray-700">
                   Rp{(item.price * item.quantity).toLocaleString("id-ID")}
                 </p>
-                {value === "checkout" && <div className="flex gap-2 mt-2">
+                {(value === "checkout" || value === "chatWa") && <div className="flex gap-2 mt-2">
                   <Button
                     variant="outline"
                     size="sm"

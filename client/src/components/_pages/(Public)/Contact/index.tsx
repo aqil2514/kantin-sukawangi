@@ -39,7 +39,6 @@ export default function Contact({
                 className="rounded-lg shadow-lg"
               />
             </div>
-            {/* TODO : Peta google map ga muncul. Fix nanti */}
             {googleMap && (
               <Link href={googleMap} target="_blank">
                 <Button className="mt-4 text-white bg-blue-600 hover:bg-blue-800 transition duration-300 flex gap-2">

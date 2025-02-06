@@ -51,6 +51,7 @@ export async function getContactPage(){
   description,
   address,
   phone,
+  googleMap,
   emails[]{
     email
   },

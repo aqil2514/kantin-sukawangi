@@ -1,6 +1,6 @@
 "use client";
-import Checkout from "./Checkout";
-import Products from "./Products";
+import Checkout from "./RightSide";
+import Products from "./LeftSide";
 import CartProvider from "./Providers";
 
 export default function Cart({ data }: { data: Page.Cart }) {
