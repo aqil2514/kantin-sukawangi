@@ -12,6 +12,9 @@ export async function GET(req: NextRequest) {
       General.ApiResponse<Transaction.TransactionDb>
     >(`${ksEndpoint}/api/cart`, {
       params: { token },
+      headers: {
+        Authorization: `Bearer ${process.env.API_KEY}`,
+      },
     });
 
     const redirect_url = `https://app.sandbox.midtrans.com/snap/v4/redirection/${data.data?.transaction_reference}`;

@@ -11,6 +11,6 @@ export class ApiKeyGuard implements CanActivate {
       throw new UnauthorizedException('API Key tidak valid');
     }
 
-    return true; // Jika API Key valid, lanjutkan
+    return true;
   }
 }
