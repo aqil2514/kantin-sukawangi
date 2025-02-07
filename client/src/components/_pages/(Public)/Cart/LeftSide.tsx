@@ -6,17 +6,14 @@ import { useCartStore } from "@/lib/store-cart";
 import { useCartContext } from "./Providers";
 
 export default function Products() {
-  const {
-    cartItems,
-    decreaseCartItem,
-    increaseCartItem,
-    removeCartItem,
-  } = useCartStore();
+  const { cartItems, decreaseCartItem, increaseCartItem, removeCartItem } =
+    useCartStore();
   const { value, items, setItems } = useCartContext();
 
   useEffect(() => {
     if (value === "checkout") return setItems(cartItems);
     else if (value === "continue") return setItems([]);
+    else if (value === "chatWa") return setItems(cartItems);
   }, [value, setItems, cartItems]);
 
   return (
@@ -58,29 +55,31 @@ export default function Products() {
                 <p className="font-medium text-gray-700">
                   Rp{(item.price * item.quantity).toLocaleString("id-ID")}
                 </p>
-                {(value === "checkout" || value === "chatWa") && <div className="flex gap-2 mt-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => decreaseCartItem(item.id)}
-                  >
-                    -
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => increaseCartItem(item.id)}
-                  >
-                    +
-                  </Button>
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    onClick={() => removeCartItem(item.id)}
-                  >
-                    Hapus
-                  </Button>
-                </div>}
+                {(value === "checkout" || value === "chatWa") && (
+                  <div className="flex gap-2 mt-2">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => decreaseCartItem(item.id)}
+                    >
+                      -
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => increaseCartItem(item.id)}
+                    >
+                      +
+                    </Button>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => removeCartItem(item.id)}
+                    >
+                      Hapus
+                    </Button>
+                  </div>
+                )}
               </div>
             </div>
           ))

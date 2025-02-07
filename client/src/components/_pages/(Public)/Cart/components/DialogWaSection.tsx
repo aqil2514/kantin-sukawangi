@@ -139,10 +139,13 @@ export default function DialogChatWa() {
         return;
       }
 
-      const phoneNumber = "6281779174118";
+      const phoneNumber = "6285774885367";
       const message = encodeURIComponent(
-        `Halo Kantin Sukawangi!\nSaya ${formData.name}, telah order pesanan dengan transaksi ID: ${orderId}.\n${formData.additionalMessage || ""}`
+        `Halo Kantin Sukawangi!\n\n` +
+          `Saya ${formData.name}, telah order pesanan dengan transaksi ID: ${orderId}.\n` +
+          `${formData.additionalMessage || ""}`
       );
+
       const waUrl = `https://wa.me/${phoneNumber}?text=${message}`;
 
       window.open(waUrl, "_blank");
@@ -191,72 +194,3 @@ export default function DialogChatWa() {
     </>
   );
 }
-
-// export default function DialogChatWa() {
-//   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-//   const submitHandler = async (formData: WaFormData) => {
-//     const isContinued = confirm(
-//       `Ini akan mengirim pesan ke WhatsApp: \nNama: ${formData.name}\nPesan: ${formData.additionalMessage || "(Tidak ada pesan)"}`
-//     );
-
-//     if (!isContinued) return;
-
-//     try {
-//       setIsLoading(true);
-
-//       const { data } =
-//         await axios.get<General.ApiResponse<{ orderId: string }>>(
-//           "/api/cart/orderId"
-//         );
-//       const orderId = data.data?.orderId;
-
-//       if (!orderId) {
-//         toast({
-//           title: "Membuat orderId gagal",
-//           description: "Order Id tidak ada",
-//           variant: "destructive",
-//         });
-//         return;
-//       }
-
-//       const phoneNumber = "6281779174118";
-//       const message = encodeURIComponent(
-//         `Halo Kantin Sukawangi!\nSaya ${formData.name}, telah order pesanan dengan transaksi ID: ${orderId}.\n${formData.additionalMessage || ""}`
-//       );
-//       const waUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-
-//       window.open(waUrl, "_blank");
-//     } catch (error) {
-//       if (isAxiosError(error)) {
-//         console.error(error);
-//         toast({
-//           title: "Membuat orderId gagal",
-//           description: "Gagal mengambil Order ID. Silakan coba lagi",
-//           variant: "destructive",
-//         });
-//       }
-//     } finally {
-//       setIsLoading(false);
-//     }
-//   };
-
-//   return (
-//     <Dialog>
-//       <DialogTrigger asChild>
-//         <Button className="mt-4 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition">
-//           Chat Wa
-//         </Button>
-//       </DialogTrigger>
-//       <DialogContent>
-//         <DialogHeader>
-//           <DialogTitle className="text-center">Chat Via WhatsApp</DialogTitle>
-//           <DialogDescription>
-//             Masukkan nama dan pesan (opsional)
-//           </DialogDescription>
-//         </DialogHeader>
-//         <ChatForm onSubmit={submitHandler} isLoading={isLoading} />
-//       </DialogContent>
-//     </Dialog>
-//   );
-// }
