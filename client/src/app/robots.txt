@@ -3,4 +3,4 @@ Disallow: /admin/
 Disallow: /cart/
 Disallow: /checkout/
 
-Sitemap: https://yourwebsite.com/sitemap.xml
+Sitemap: https://kantin-sukawangi.vercel.app/sitemap.xml
