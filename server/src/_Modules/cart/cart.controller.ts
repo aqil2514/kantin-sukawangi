@@ -10,7 +10,7 @@ import {
 import { CartService } from './cart.service';
 import { TransactionDbDto } from '../checkout/dto/transaction-db.dto';
 import { CheckoutService } from '../checkout/checkout.service';
-import { ApiKeyGuard } from 'src/_Guards/api-key-guard';
+import { ApiKeyGuard } from '../../_Guards/api-key-guard';
 
 @Controller('cart')
 export class CartController {
