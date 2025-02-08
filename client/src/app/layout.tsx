@@ -13,8 +13,45 @@ export const metadata: Metadata = {
     default: "Kantin Sukawangi",
     template: "%s | Kantin Sukawangi",
   },
-  description: "Kantin Sukawangi",
+  description: "Nikmati berbagai pilihan makanan dan minuman lezat di Kantin Sukawangi.",
+  keywords: [
+    "Kantin Sukawangi",
+    "makanan enak",
+    "minuman segar",
+    "kantin online",
+    "pesan makanan",
+  ],
+  openGraph: {
+    title: "Kantin Sukawangi",
+    description: "Nikmati berbagai pilihan makanan dan minuman lezat di Kantin Sukawangi.",
+    url: "https://kantin-sukawangi.vercel.app/",
+    siteName: "Kantin Sukawangi",
+    images: [
+      {
+        url: "/api/og?title=Kantin%20Sukawangi&desc=Nikmati%20berbagai%20pilihan%20makanan%20dan%20minuman%20lezat",
+        width: 1200,
+        height: 630,
+        alt: "Kantin Sukawangi",
+      },
+    ],
+    type: "website",
+    locale: "id_ID",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kantin Sukawangi",
+    description: "Nikmati berbagai pilihan makanan dan minuman lezat di Kantin Sukawangi.",
+    images: [
+      "/api/og?title=Kantin%20Sukawangi&desc=Nikmati%20berbagai%20pilihan%20makanan%20dan%20minuman%20lezat",
+    ],
+  },
+  metadataBase: new URL("https://kantin-sukawangi.vercel.app/"),
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
