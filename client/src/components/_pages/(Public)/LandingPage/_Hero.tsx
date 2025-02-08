@@ -17,12 +17,12 @@ export default function HeroSection() {
         </div>
       </div>
       <div className="flex flex-col justify-center px-8 -mt-28 md:mt-0 gap-4">
-        <p className="text-3xl md:text-4xl lg:text-5xl text-center md:text-right font-lora font-bold text-white">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl text-center md:text-right font-lora font-bold text-white">
           {data.companyName}
-        </p>
-        <p className="text-xl md:text-2xl lg:text-3xl italic text-center md:text-right font-oswald text-white">
+        </h1>
+        <h2 className="text-xl md:text-2xl lg:text-3xl italic text-center md:text-right font-oswald text-white">
           {data.companyMotto}
-        </p>
+        </h2>
       </div>
     </div>
   );

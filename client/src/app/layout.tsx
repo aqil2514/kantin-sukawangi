@@ -7,13 +7,15 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import Navbar from "@/components/Layouts/Navbar";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import Head from "next/head";
 
 export const metadata: Metadata = {
   title: {
     default: "Kantin Sukawangi",
     template: "%s | Kantin Sukawangi",
   },
-  description: "Nikmati berbagai pilihan makanan dan minuman lezat di Kantin Sukawangi.",
+  description:
+    "Nikmati berbagai pilihan makanan dan minuman lezat di Kantin Sukawangi.",
   keywords: [
     "Kantin Sukawangi",
     "makanan enak",
@@ -23,7 +25,8 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Kantin Sukawangi",
-    description: "Nikmati berbagai pilihan makanan dan minuman lezat di Kantin Sukawangi.",
+    description:
+      "Nikmati berbagai pilihan makanan dan minuman lezat di Kantin Sukawangi.",
     url: "https://kantin-sukawangi.vercel.app/",
     siteName: "Kantin Sukawangi",
     images: [
@@ -40,7 +43,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Kantin Sukawangi",
-    description: "Nikmati berbagai pilihan makanan dan minuman lezat di Kantin Sukawangi.",
+    description:
+      "Nikmati berbagai pilihan makanan dan minuman lezat di Kantin Sukawangi.",
     images: [
       "/api/og?title=Kantin%20Sukawangi&desc=Nikmati%20berbagai%20pilihan%20makanan%20dan%20minuman%20lezat",
     ],
@@ -50,8 +54,10 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
+  other: {
+    "google-site-verification": "AQdQ6iFFZcojBbTl9fIdqbzoAYZ5qNBbgdevebLXVRY",
+  },
 };
-
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -88,8 +94,29 @@ export default async function RootLayout({
 }>) {
   const session = await auth();
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: "Kantin Sukawangi",
+    url: "https://kantin-sukawangi.vercel.app/",
+    logo: "https://kantin-sukawangi.vercel.app/images/logo.png",
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: "+62-856-9327-3746",
+      contactType: "customer service",
+      areaServed: "ID",
+      availableLanguage: "Indonesian",
+    },
+  };
+
   return (
     <html lang="en">
+      <Head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </Head>
       <SessionProvider session={session}>
         <body
           className={`${geistSans.variable} ${geistMono.variable} ${macondoFont.variable} ${oswaldFont.variable} ${loraFont.variable} antialiased`}
