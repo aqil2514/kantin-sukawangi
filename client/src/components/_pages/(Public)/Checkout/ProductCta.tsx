@@ -21,6 +21,7 @@ import {
   FaTimesCircle,
   FaUndoAlt,
 } from "react-icons/fa";
+import { sendGAEvent } from "@next/third-parties/google";
 
 export default function ProjectCta() {
   const { paymentStatus } = useWpContext();
@@ -31,8 +32,8 @@ export default function ProjectCta() {
   else if (paymentStatus === "expire") return <PaymentExpire />;
   else if (paymentStatus === "settlement") return <PaymentSettlement />;
   else if (paymentStatus === "deny") return <PaymentDeny />;
-  else if (paymentStatus === "cancel") return <PaymentCancel />
-  else if (paymentStatus === "refund") return <PaymentRefund />
+  else if (paymentStatus === "cancel") return <PaymentCancel />;
+  else if (paymentStatus === "refund") return <PaymentRefund />;
 }
 
 const PaymentForm = () => {
@@ -74,6 +75,13 @@ const PaymentForm = () => {
     }
   };
 
+  const clickHandler = () => {
+    sendGAEvent("event", "checkout", {
+      total_price: calculateTotal,
+      currency: "IDR",
+    });
+  };
+
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <h2 className="text-xl font-semibold mb-4">Informasi Pembayaran</h2>
@@ -110,7 +118,11 @@ const PaymentForm = () => {
             {...register("customer_details.phone")}
           />
         </div>
-        <Button className="w-full mt-6" disabled={isSubmitting}>
+        <Button
+          className="w-full mt-6"
+          disabled={isSubmitting}
+          onClick={clickHandler}
+        >
           {isSubmitting ? "Mohon tunggu..." : "Lanjutkan Pembayaran"}
         </Button>
       </form>
@@ -392,36 +404,38 @@ const PaymentCancel = () => {
 };
 
 const PaymentRefund = () => {
-    const handleRefundAlert = () => {
-      alert("Pembayaran Anda telah dikembalikan. Terima kasih atas kesabarannya.");
-    };
-  
-    return (
-      <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg max-w-md mx-auto text-gray-800">
-        {/* Ikon atau ilustrasi */}
-        <div className="text-center mb-6">
-          <FaUndoAlt className="text-green-500 text-6xl mx-auto" />
-        </div>
-  
-        {/* Judul */}
-        <h2 className="text-2xl font-semibold mb-4 text-center text-green-600">
-          Pembayaran Dikembalikan
-        </h2>
-  
-        {/* Deskripsi */}
-        <p className="text-gray-600 mb-6 text-center leading-relaxed">
-          Pembayaran Anda telah diproses untuk pengembalian. Kami akan segera
-          memproses refund sesuai kebijakan kami. Terima kasih atas kesabarannya.
-        </p>
-  
-        {/* Tombol untuk menampilkan alert */}
-        <Button
-          className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg"
-          onClick={handleRefundAlert}
-          aria-label="Tampilkan Info Refund"
-        >
-          Tampilkan Info Refund
-        </Button>
-      </div>
+  const handleRefundAlert = () => {
+    alert(
+      "Pembayaran Anda telah dikembalikan. Terima kasih atas kesabarannya."
     );
   };
+
+  return (
+    <div className="bg-white p-6 md:p-8 rounded-lg shadow-lg max-w-md mx-auto text-gray-800">
+      {/* Ikon atau ilustrasi */}
+      <div className="text-center mb-6">
+        <FaUndoAlt className="text-green-500 text-6xl mx-auto" />
+      </div>
+
+      {/* Judul */}
+      <h2 className="text-2xl font-semibold mb-4 text-center text-green-600">
+        Pembayaran Dikembalikan
+      </h2>
+
+      {/* Deskripsi */}
+      <p className="text-gray-600 mb-6 text-center leading-relaxed">
+        Pembayaran Anda telah diproses untuk pengembalian. Kami akan segera
+        memproses refund sesuai kebijakan kami. Terima kasih atas kesabarannya.
+      </p>
+
+      {/* Tombol untuk menampilkan alert */}
+      <Button
+        className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-lg"
+        onClick={handleRefundAlert}
+        aria-label="Tampilkan Info Refund"
+      >
+        Tampilkan Info Refund
+      </Button>
+    </div>
+  );
+};

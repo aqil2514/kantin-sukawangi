@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import Navbar from "@/components/Layouts/Navbar";
+import { GoogleAnalytics } from "@next/third-parties/google";
 
 export const metadata: Metadata = {
   title: {
@@ -60,6 +61,7 @@ export default async function RootLayout({
           <Toaster />
           {children}
           <Footer />
+          <GoogleAnalytics gaId="G-78NX9JXXG3" />
         </body>
       </SessionProvider>
     </html>
