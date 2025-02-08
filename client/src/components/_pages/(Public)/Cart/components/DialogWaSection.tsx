@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import axios, { isAxiosError } from "axios";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
+import { useCartStore } from "@/lib/store-cart";
+import { formatCurrency } from "@/lib/utils";
 
 interface WaFormData {
   name: string;
@@ -108,6 +110,7 @@ function ConfirmDialog({
 }
 
 export default function DialogChatWa() {
+  const { cartItems } = useCartStore();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
   const [formData, setFormData] = useState<WaFormData | null>(null);
@@ -142,8 +145,18 @@ export default function DialogChatWa() {
       const phoneNumber = "6285774885367";
       const message = encodeURIComponent(
         `Halo Kantin Sukawangi!\n\n` +
-          `Saya ${formData.name}, telah order pesanan dengan transaksi ID: ${orderId}.\n` +
-          `${formData.additionalMessage || ""}`
+          `Saya ${formData.name}, telah order pesanan dengan:\n` +
+          `ID Transaksi: ` +
+          `${orderId}\n\n` +
+          `Produk yang dipesan:\n` +
+          cartItems
+            .map(
+              (item) =>
+                `- ${item.name}\n  ${formatCurrency(item.price)} x ${item.quantity} = ${formatCurrency(item.price)} * ${item.quantity})}`
+            )
+            .join("\n") +
+          `\n\nTotal Pesanan: ${formatCurrency(cartItems.reduce((acc, cur) => acc + cur.price * cur.quantity, 0))}\n\n` +
+          `Keterangan Tambahan:\n${formData.additionalMessage}`
       );
 
       const waUrl = `https://wa.me/${phoneNumber}?text=${message}`;
