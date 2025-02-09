@@ -9,7 +9,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { CiMenuBurger } from "react-icons/ci";
-import { navigatorLinks, navigatorUserLinks } from "./data";
+import { navigatorLinks, navigatorUserLinks } from "../data";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { FaKey } from "react-icons/fa";

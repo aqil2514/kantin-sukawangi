@@ -1,4 +1,4 @@
-import { Button } from "../../ui/button";
+import { Button } from "@/components/ui/button";
 import { FaCartShopping } from "react-icons/fa6";
 import {
   Sheet,
@@ -9,13 +9,13 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../../ui/sheet";
+} from "@/components/ui/sheet";
 import { useCartStore } from "@/lib/store-cart";
 import { FaTrashAlt } from "react-icons/fa";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
-import { ScrollArea, ScrollBar } from "../../ui/scroll-area";
 import Link from "next/link";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 export default function NavbarCarts() {
   const { cartItems, increaseCartItem, decreaseCartItem, removeCartItem } =
