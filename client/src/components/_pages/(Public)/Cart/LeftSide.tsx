@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area"; // Pastikan path benar
 import Image from "next/image";
 import { Button } from "@/components/ui/button"; // CTA Button
-import { useCartStore } from "@/lib/store-cart";
+import { useCartStore } from "@/lib/store/cart";
 import { useCartContext } from "./Providers";
 
 export default function Products() {

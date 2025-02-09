@@ -1,3 +1,4 @@
+import { BarChart, FileText, Home, Settings, Users } from "lucide-react";
 import {
   FaHome,
   FaInfoCircle,
@@ -54,5 +55,39 @@ export const navigatorUserLinks: General.LinkAttributes[] = [
     target: "_self",
     allowFor:"all",
     rel: "noopener noreferrer",
+  },
+];
+
+
+export const adminSidebarLinks: General.LinkAttributes[] = [
+  {
+    href: "/admin/home",
+    text: "Beranda Admin",
+    icon: <Home size={20} />,
+    allowFor: "admin",
+  },
+  {
+    href: "/admin/users",
+    text: "Kelola Pengguna",
+    icon: <Users size={20} />,
+    allowFor: "admin",
+  },
+  {
+    href: "/admin/reports",
+    text: "Laporan",
+    icon: <FileText size={20} />,
+    allowFor: "admin",
+  },
+  {
+    href: "/admin/analytics",
+    text: "Analitik",
+    icon: <BarChart size={20} />,
+    allowFor: "admin",
+  },
+  {
+    href: "/admin/settings",
+    text: "Pengaturan",
+    icon: <Settings size={20} />,
+    allowFor: "admin",
   },
 ];

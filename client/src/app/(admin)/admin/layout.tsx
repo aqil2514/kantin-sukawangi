@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
-import AdminProvider from "@/components/_pages/(Admin)/Admin/Provider";
 import AdminNavbar from "@/components/Layouts/Navbar/Admin";
+import AdminContainer from "@/components/Layouts/Navbar/Admin/ContainerAdmin";
 import AdminSidebar from "@/components/Layouts/Navbar/Sidebar/Admin";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
@@ -31,12 +31,15 @@ export default async function AdminLayout({
   const user = session?.user as Auth.User;
 
   if (!session?.user || user.role !== "admin") return notFound();
-// TODO : Lanjutin ini
+
   return (
-    <AdminProvider>
-      <AdminNavbar />
+    <AdminContainer>
       <AdminSidebar />
-      {children}
-    </AdminProvider>
+      <div>
+        <AdminNavbar />
+
+        {children}
+      </div>
+    </AdminContainer>
   );
 }

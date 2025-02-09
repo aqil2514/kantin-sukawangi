@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
 import { useProducts } from "./Provider";
-import { useCartStore } from "@/lib/store-cart";
+import { useCartStore } from "@/lib/store/cart";
 import NoProductsFound from "./NoProductsFound";
 import ProductsItem from "./ProductsItem";
 

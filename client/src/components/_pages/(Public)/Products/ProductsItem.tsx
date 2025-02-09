@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useCartStore } from "@/lib/store-cart";
+import { useCartStore } from "@/lib/store/cart";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";

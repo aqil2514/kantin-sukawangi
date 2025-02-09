@@ -10,7 +10,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { useCartStore } from "@/lib/store-cart";
+import { useCartStore } from "@/lib/store/cart";
 import { FaTrashAlt } from "react-icons/fa";
 import { formatCurrency } from "@/lib/utils";
 import Image from "next/image";

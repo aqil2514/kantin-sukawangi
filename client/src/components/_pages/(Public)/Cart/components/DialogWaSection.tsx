@@ -16,7 +16,7 @@ import { Button } from "@/components/ui/button";
 import axios, { isAxiosError } from "axios";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
-import { useCartStore } from "@/lib/store-cart";
+import { useCartStore } from "@/lib/store/cart";
 import { formatCurrency } from "@/lib/utils";
 
 interface WaFormData {

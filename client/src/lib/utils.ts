@@ -44,3 +44,7 @@ export function useGetUser() {
   const user = session?.user as Auth.User;
   return {user, session};
 }
+
+
+export const toTitleCase = (str: string) =>
+  str.replace(/\b\w/g, (char) => char.toUpperCase());

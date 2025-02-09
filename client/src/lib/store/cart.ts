@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { convertProductToCartItem } from "./utils";
+import { convertProductToCartItem } from "../utils";
 
 type State = {
   cartItems: General.CartItem[]; // Array dari CartItem

@@ -1,4 +1,4 @@
-import { useCartStore } from "@/lib/store-cart";
+import { useCartStore } from "@/lib/store/cart";
 import { useCartContext, ValueState } from "../Providers";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";

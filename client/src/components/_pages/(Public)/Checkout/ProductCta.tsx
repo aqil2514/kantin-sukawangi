@@ -1,4 +1,4 @@
-import { useCartStore } from "@/lib/store-cart";
+import { useCartStore } from "@/lib/store/cart";
 import { useWpContext } from "./Providers";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast, useToast } from "@/hooks/use-toast";

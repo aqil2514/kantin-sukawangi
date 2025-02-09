@@ -82,7 +82,7 @@
 //   );
 // };
 
-import { useCartStore } from "@/lib/store-cart";
+import { useCartStore } from "@/lib/store/cart";
 import { useWpContext } from "./Providers";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";

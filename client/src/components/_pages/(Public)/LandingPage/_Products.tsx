@@ -3,7 +3,7 @@ import Image from "next/image";
 import { formatCurrency } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { useCartStore } from "@/lib/store-cart";
+import { useCartStore } from "@/lib/store/cart";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { useHomeData } from "./Provider";
 

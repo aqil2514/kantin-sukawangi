@@ -3,7 +3,7 @@
 import React from "react";
 import NoProducts from "./NoProducts";
 import WithProducts from "./WithProducts";
-import { useCartStore } from "@/lib/store-cart";
+import { useCartStore } from "@/lib/store/cart";
 
 export default function Checkout() {
   const { cartItems } = useCartStore();
