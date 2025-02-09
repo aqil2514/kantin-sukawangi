@@ -1,4 +1,11 @@
-import { BarChart, FileText, Home, Settings, Users } from "lucide-react";
+import {
+  BarChart,
+  FileText,
+  HelpCircle,
+  Home,
+  Settings,
+  Users,
+} from "lucide-react";
 import {
   FaHome,
   FaInfoCircle,
@@ -10,6 +17,9 @@ import {
   FaCog,
 } from "react-icons/fa";
 import { FaCartShopping } from "react-icons/fa6";
+import { AiOutlineTransaction } from "react-icons/ai";
+import { IoFastFoodOutline } from "react-icons/io5";
+import { BsExclamationCircle } from "react-icons/bs";
 
 export const navigatorLinks: General.LinkAttributes[] = [
   { text: "Home", href: "/", icon: <FaHome /> },
@@ -35,7 +45,7 @@ export const navigatorUserLinks: General.LinkAttributes[] = [
     text: "Profile",
     icon: <FaUser size={18} className="text-red-500" />,
     target: "_self",
-    allowFor:"all",
+    allowFor: "all",
     rel: "noopener noreferrer",
   },
   // Orders
@@ -44,7 +54,7 @@ export const navigatorUserLinks: General.LinkAttributes[] = [
     text: "Orders",
     icon: <FaBox size={18} className="text-yellow-500" />,
     target: "_self",
-    allowFor:"all",
+    allowFor: "all",
     rel: "noopener noreferrer",
   },
   // Settings
@@ -53,11 +63,10 @@ export const navigatorUserLinks: General.LinkAttributes[] = [
     text: "Settings",
     icon: <FaCog size={18} className="text-blue-500" />,
     target: "_self",
-    allowFor:"all",
+    allowFor: "all",
     rel: "noopener noreferrer",
   },
 ];
-
 
 export const adminSidebarLinks: General.LinkAttributes[] = [
   {
@@ -67,9 +76,15 @@ export const adminSidebarLinks: General.LinkAttributes[] = [
     allowFor: "admin",
   },
   {
-    href: "/admin/users",
-    text: "Kelola Pengguna",
-    icon: <Users size={20} />,
+    href: "/admin/products",
+    text: "Produk",
+    icon: <IoFastFoodOutline size={20} />,
+    allowFor: "admin",
+  },
+  {
+    href: "/admin/orders",
+    text: "Pesanan",
+    icon: <AiOutlineTransaction size={20} />,
     allowFor: "admin",
   },
   {
@@ -82,6 +97,27 @@ export const adminSidebarLinks: General.LinkAttributes[] = [
     href: "/admin/analytics",
     text: "Analitik",
     icon: <BarChart size={20} />,
+    allowFor: "admin",
+  },
+  {
+    href: "/admin/users",
+    text: "Kelola Pengguna",
+    icon: <Users size={20} />,
+    allowFor: "admin",
+  },
+];
+
+export const adminSidebarFooterLinks: General.LinkAttributes[] = [
+  {
+    href: "/admin/help",
+    text: "Bantuan",
+    icon: <HelpCircle size={20} />,
+    allowFor: "admin",
+  },
+  {
+    href: "/admin/suggestion",
+    text: "Saran",
+    icon: <BsExclamationCircle size={20} />,
     allowFor: "admin",
   },
   {

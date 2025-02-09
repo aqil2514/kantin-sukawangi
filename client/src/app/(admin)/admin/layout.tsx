@@ -15,7 +15,13 @@ export async function generateMetadata(): Promise<Metadata> {
     };
   const user = session.user as Auth.User;
 
-  if (user.role === "admin") return { title: "Admin" };
+  if (user.role === "admin")
+    return {
+      title: {
+        default: "Dashboard",
+        template: "%s | Admin Kantin Sukawangi",
+      },
+    };
 
   return {
     title: "Halaman Tidak Ditemukan",

@@ -27,7 +27,7 @@ export default function NavbarMobile() {
           <CiMenuBurger />
         </Button>
       </SheetTrigger>
-      <SheetContent side={"left"} className="w-screen">
+      <SheetContent side={"left"} className="w-[90%]">
         <SheetHeader className="my-2 ">
           <SheetTitle>
             <Link href={"/"}>

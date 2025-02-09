@@ -1,6 +1,5 @@
 import { auth } from "@/auth";
 import { Metadata } from "next";
-import { redirect } from "next/navigation";
 
 export async function generateMetadata(): Promise<Metadata> {
   const session = await auth();
@@ -11,13 +10,13 @@ export async function generateMetadata(): Promise<Metadata> {
     };
   const user = session.user as Auth.User;
 
-  if (user.role === "admin") return { title: "Admin" };
+  if (user.role === "admin") return { title: "Laporan" };
 
   return {
     title: "Halaman Tidak Ditemukan",
   };
 }
 
-export default async function AdminPage() {
-  redirect("/admin/home")
+export default async function AdminReportsPage() {
+  return <div>Laporan</div>;
 }
