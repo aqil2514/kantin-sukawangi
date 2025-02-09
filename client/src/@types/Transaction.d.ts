@@ -33,7 +33,7 @@ namespace Transaction {
      * Nomor telepon pelanggan.
      * @example "08123456789"
      */
-    phone: string;
+    phone?: string;
   }
 
   /**
@@ -137,6 +137,18 @@ namespace Transaction {
      */
     status_message?: string;
   }
+
+  export type TransactionDbWa = Pick<
+    TransactionDb,
+    "order_id" | "order_details" | "status" | "amount"
+  > & {
+    /** Pesan tambahan dari customer */
+    additional_message?: string;
+    /** Tanggal pemesanan dibuat */
+    created_at: string;
+  };
+
+  export type TransactionDbWaClientData = Omit<TransactionDbWa, "order_id" | "status">;
 
   /**
    * Merepresentasikan badan permintaan (request body) yang diperlukan untuk memulai sebuah transaksi.

@@ -51,7 +51,7 @@ export class CheckoutService {
         .createTransaction(parameter);
 
       midtrans.token_id = body.order_id;
-      dbData.transaction_reference = midtrans.token
+      dbData.transaction_reference = midtrans.token;
 
       // Simpan ke Supabase
       const { error } = await this.supabaseService
@@ -75,6 +75,39 @@ export class CheckoutService {
         null,
         error.message || error,
       );
+    }
+  }
+
+  async createTransactionWa(
+    clientData: Transaction.TransactionDbWaClientData,
+  ): Promise<Transaction.TransactionDbWa> {
+    try {
+      // Susun data transaksi
+      const finalData: Transaction.TransactionDbWa = {
+        order_id: this.generateOrderId(),
+        amount: clientData.amount,
+        created_at: new Date().toISOString(),
+        status: 'pending',
+        additional_message: clientData.additional_message,
+        order_details: clientData.order_details,
+      };
+
+      // Simpan ke database Supabase
+      const { data, error } = await this.supabaseService
+        .getSupabaseClient()
+        .from('transaction_wa')
+        .insert(finalData)
+        .select()
+        .single();
+
+      if (error) {
+        throw new Error(`Gagal menyimpan transaksi: ${error.message}`);
+      }
+
+      return data as Transaction.TransactionDbWa;
+    } catch (error) {
+      console.error('Error saat membuat transaksi WA:', error);
+      throw new Error('Terjadi kesalahan saat memproses transaksi.');
     }
   }
 
@@ -148,11 +181,12 @@ export class CheckoutService {
         .from('transaction')
         .update({
           status: midtransStatus.transaction_status,
-          status_message: this.transactionStatus(midtransStatus.transaction_status),
+          status_message: this.transactionStatus(
+            midtransStatus.transaction_status,
+          ),
         })
         .eq('order_id', orderId);
       data.status = midtransStatus.transaction_status as typeof data.status;
-
     }
 
     // Persiapkan response dengan status transaksi dari Supabase

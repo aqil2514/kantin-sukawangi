@@ -114,6 +114,10 @@ export default function DialogChatWa() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [confirmOpen, setConfirmOpen] = useState<boolean>(false);
   const [formData, setFormData] = useState<WaFormData | null>(null);
+  const amount = cartItems.reduce(
+    (acc, cur) => acc + cur.price * cur.quantity,
+    0
+  );
 
   const handleSubmit = (data: WaFormData) => {
     setFormData(data);
@@ -125,13 +129,23 @@ export default function DialogChatWa() {
 
     setConfirmOpen(false);
     setIsLoading(true);
+    const clientData: Transaction.TransactionDbWaClientData = {
+      additional_message: formData.additionalMessage,
+      amount, 
+      created_at: new Date().toISOString(),
+      order_details: {
+        customer_details: {
+          full_name: formData.name,
+        },
+        items: cartItems,
+      },
+    };
 
     try {
-      const { data } =
-        await axios.get<General.ApiResponse<{ orderId: string }>>(
-          "/api/cart/orderId"
-        );
-      const orderId = data.data?.orderId;
+      const { data } = await axios.post<
+        General.ApiResponse<Transaction.TransactionDbWa>
+      >("/api/cart/orderId", clientData);
+      const orderId = data.data?.order_id;
 
       if (!orderId) {
         toast({
@@ -152,10 +166,10 @@ export default function DialogChatWa() {
           cartItems
             .map(
               (item) =>
-                `- ${item.name}\n  ${formatCurrency(item.price)} x ${item.quantity} = ${formatCurrency(item.price)} * ${item.quantity})}`
+                `- ${item.name}\n  ${formatCurrency(item.price)} x ${item.quantity} = ${formatCurrency(item.price)} * ${item.quantity}`
             )
             .join("\n") +
-          `\n\nTotal Pesanan: ${formatCurrency(cartItems.reduce((acc, cur) => acc + cur.price * cur.quantity, 0))}\n\n` +
+          `\n\nTotal Pesanan: ${formatCurrency(amount)}\n\n` +
           `Keterangan Tambahan:\n${formData.additionalMessage}`
       );
 

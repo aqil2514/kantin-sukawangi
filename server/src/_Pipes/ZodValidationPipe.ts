@@ -1,29 +1,33 @@
-import { ArgumentMetadata, BadRequestException, PipeTransform } from '@nestjs/common';
-import { ZodSchema, ZodError } from 'zod';
+import { ArgumentMetadata, BadRequestException, PipeTransform } from "@nestjs/common";
+import { ZodSchema, ZodError } from "zod";
 
 export class ZodValidationPipe implements PipeTransform {
   constructor(private schema: ZodSchema<unknown>) {}
 
   transform(value: unknown, metadata: ArgumentMetadata) {
+    console.log("Data yang diterima sebelum validasi:", value); // 🔍 Debugging
+
     try {
       // Lakukan validasi menggunakan Zod
       return this.schema.parse(value);
     } catch (error) {
+      console.error("Zod Validation Error:", error); // 🔍 Logging error
+
       if (error instanceof ZodError) {
         // Mapping error Zod ke dalam format ValidationError
         const validationErrors = error.issues.map((issue) => ({
-          path: issue.path.join('.'),
+          path: issue.path.join("."),
           message: issue.message,
         }));
 
         throw new BadRequestException({
-          message: 'Validasi Gagal',
+          message: "Validasi Gagal",
           errors: validationErrors,
         });
       }
 
       // Lempar kesalahan jika bukan dari Zod
-      throw new BadRequestException('Validasi Gagal: Kesalahan tidak dikenal.');
+      throw new BadRequestException("Validasi Gagal: Kesalahan tidak dikenal.");
     }
   }
 }
