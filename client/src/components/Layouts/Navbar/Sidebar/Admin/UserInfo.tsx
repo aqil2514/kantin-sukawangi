@@ -9,7 +9,7 @@ export default function UserInfo() {
     str.replace(/\b\w/g, (char) => char.toUpperCase());
 
   return (
-    <div className="flex items-center gap-4 p-4 rounded-lg bg-gray-700 shadow-md hover:shadow-lg transition-shadow">
+    <div className="flex items-center gap-4 p-1 md:p-4 rounded-lg bg-gray-700 shadow-md hover:shadow-lg transition-shadow">
       <Image
         src={user.image as string}
         alt="User Image"
@@ -18,8 +18,8 @@ export default function UserInfo() {
         className="rounded-full border border-gray-600"
       />
       <div>
-        <p className="text-white text-[10px] lg:text-xs xl:text-sm font-medium">{user.name}</p>
-        <p className="text-gray-400 text-[10px] lg:text-xs xl:text-sm">{toTitleCase(user.role as string)}</p>
+        <p className="text-white text-xs lg:text-xs xl:text-sm font-medium">{user.name}</p>
+        <p className="text-gray-400 text-xs lg:text-xs xl:text-sm">{toTitleCase(user.role as string)}</p>
       </div>
     </div>
   );

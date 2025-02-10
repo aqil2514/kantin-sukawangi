@@ -21,7 +21,7 @@ export default function MobileSidebar() {
           <SheetTitle className="text-white">Kantin Sukawangi</SheetTitle>
         </SheetHeader>
         <ScrollArea className="h-screen">
-          <div className="my-4 pb-12">
+          <div className="my-4 pb-24">
             <UserInfo />
 
             <AdminSidebarMenu />
