@@ -8,7 +8,7 @@ export default function AdminSidebar() {
 
   return (
     <div
-      className={`transition-all duration-300 bg-gray-800 h-full p-4`}
+      className={`hidden lg:block transition-all duration-300 bg-gray-800 h-full pt-4 pl-4`}
       style={{
         opacity: isActiveSidebar ? 1 : 0,
         transform: isActiveSidebar ? "translateX(0)" : "translateX(-100%)",

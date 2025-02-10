@@ -18,8 +18,8 @@ export default function UserInfo() {
         className="rounded-full border border-gray-600"
       />
       <div>
-        <p className="text-white text-sm font-medium ">{user.name}</p>
-        <p className="text-gray-400">{toTitleCase(user.role as string)}</p>
+        <p className="text-white text-[12px] lg:text-xs xl:text-sm font-medium">{user.name}</p>
+        <p className="text-gray-400 text-[12px] lg:text-xs xl:text-sm">{toTitleCase(user.role as string)}</p>
       </div>
     </div>
   );

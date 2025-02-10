@@ -11,10 +11,7 @@ export default function AdminContainer({
 
   return (
     <div
-      className="grid transition-[grid-template-columns] duration-500 ease-in-out"
-      style={{
-        gridTemplateColumns: isActiveSidebar ? "20% auto" : "minmax(0px, 0px) auto",
-      }}
+      className={`block lg:grid transition-[grid-template-columns] duration-500 ease-in-out ${isActiveSidebar ? "grid-cols-[20%_auto]" : "grid-cols-[minmax(0px,_0px)_auto]"}`}
     >
       {children}
     </div>

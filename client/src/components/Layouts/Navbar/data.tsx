@@ -71,7 +71,7 @@ export const navigatorUserLinks: General.LinkAttributes[] = [
 export const adminSidebarLinks: General.LinkAttributes[] = [
   {
     href: "/admin/home",
-    text: "Beranda Admin",
+    text: "Beranda",
     icon: <Home size={20} />,
     allowFor: "admin",
   },
@@ -101,7 +101,7 @@ export const adminSidebarLinks: General.LinkAttributes[] = [
   },
   {
     href: "/admin/users",
-    text: "Kelola Pengguna",
+    text: "Pengguna",
     icon: <Users size={20} />,
     allowFor: "admin",
   },

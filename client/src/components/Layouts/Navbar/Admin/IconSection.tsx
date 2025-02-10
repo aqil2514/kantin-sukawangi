@@ -3,7 +3,7 @@ import { Bell, MessageCircle, RefreshCw } from "lucide-react";
 
 export default function IconSection() {
   return (
-    <div className="flex items-center gap-6 text-white">
+    <div className="hidden md:flex items-center gap-6 text-white">
       <Button className="p-2 hover:text-red-500 transition">
         <RefreshCw size={22} />
       </Button>

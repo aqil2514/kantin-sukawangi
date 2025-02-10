@@ -6,6 +6,7 @@ import DropdownAdmin from "./DropDown";
 import IconSection from "./IconSection";
 import Title from "./Title";
 import { useAdminSidebarStore } from "@/lib/store/admin-sidebar";
+import MobileSidebar from "../Sidebar/Admin/MobileSidebar";
 
 export default function AdminNavbar() {
   const { toggleSidebar, isActiveSidebar } = useAdminSidebarStore();
@@ -15,17 +16,19 @@ export default function AdminNavbar() {
       <div className="flex items-center space-x-2">
         {isActiveSidebar ? (
           <IoCloseSharp
-            className="text-white cursor-pointer hover:text-red-500 transition"
+            className="text-white hidden lg:block cursor-pointer hover:text-red-500 transition"
             size={24}
             onClick={toggleSidebar}
           />
         ) : (
           <Menu
-            className="text-white cursor-pointer hover:text-red-500 transition"
+            className="text-white hidden lg:block cursor-pointer hover:text-red-500 transition"
             size={24}
             onClick={toggleSidebar}
           />
         )}
+
+        <MobileSidebar />
 
         <Title />
       </div>

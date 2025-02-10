@@ -21,7 +21,7 @@ export default function DropdownAdmin() {
       <DropdownMenuTrigger asChild>
         <Button
           variant="ghost"
-          className="flex items-center gap-3 bg-red-600 hover:bg-red-500 px-4 py-2 rounded-lg"
+          className="flex items-center gap-3 md:bg-red-600 md:hover:bg-red-500 px-4 py-2 rounded-lg"
         >
           <Image
             src={user.image as string}
@@ -30,7 +30,7 @@ export default function DropdownAdmin() {
             alt="Admin profile Image"
             className="rounded-full"
           />
-          <p className="text-sm text-white">{user.name}</p>
+          <p className="text-sm text-white md:block hidden">{user.name}</p>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent
