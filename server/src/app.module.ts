@@ -6,6 +6,8 @@ import { CheckoutModule } from './_Modules/checkout/checkout.module';
 import { ConfigModule } from '@nestjs/config';
 import { MidtransModule } from './_Modules/midtrans/midtrans.module';
 import { SupabaseService } from './_Utils/supabase.service';
+import { TransactionController } from './_modules/transaction/transaction.controller';
+import { TransactionModule } from './_modules/transaction/transaction.module';
 
 @Module({
   imports: [
@@ -13,8 +15,9 @@ import { SupabaseService } from './_Utils/supabase.service';
     CheckoutModule,
     MidtransModule,
     ConfigModule.forRoot({ isGlobal: true }),
+    TransactionModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, TransactionController],
   providers: [AppService, SupabaseService],
 })
 export class AppModule {}
