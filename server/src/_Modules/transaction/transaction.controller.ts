@@ -1,6 +1,6 @@
 import { Controller, Get, UseGuards, InternalServerErrorException } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
-import { ApiKeyGuard } from 'src/_Guards/api-key-guard';
+import { ApiKeyGuard } from '../../_Guards/api-key-guard';
 
 @Controller('transaction')
 export class TransactionController {

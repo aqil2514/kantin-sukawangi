@@ -6,8 +6,8 @@ import { CheckoutModule } from './_Modules/checkout/checkout.module';
 import { ConfigModule } from '@nestjs/config';
 import { MidtransModule } from './_Modules/midtrans/midtrans.module';
 import { SupabaseService } from './_Utils/supabase.service';
-import { TransactionController } from './_modules/transaction/transaction.controller';
-import { TransactionModule } from './_modules/transaction/transaction.module';
+import { TransactionController } from './_Modules/transaction/transaction.controller';
+import { TransactionModule } from './_Modules/transaction/transaction.module';
 
 @Module({
   imports: [
