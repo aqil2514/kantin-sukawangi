@@ -1,7 +1,7 @@
 "use client";
 
 import { useSearchParams, useRouter } from "next/navigation";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   Table,
   TableBody,
@@ -15,6 +15,20 @@ import {
 import { formatCurrency } from "@/lib/utils";
 import TransactionStatusBadge from "./TableStatus";
 import { Button } from "@/components/ui/button";
+
+/** 
+ * // TODO : Ini listnya di bawah
+ * 1. Harusnya, kalo searchparams lebih banyak daripada jumlah halaman, langsung otomatis atur ke halaman terakhir
+ * 2. Detail masih belum ditambah
+ * 3. Ada jeda singkat ketika ganti halaman
+ * 4. Masih belum responsive
+ * 5. Pilihan "Jumlah Data Per Halaman"
+ * 6. Navigasi ke Halaman Tertentu dengan Input Number
+ * 7. Fitur Sorting
+ * 8. Fitur Filter
+ * 9. Fitur Export Data
+ * 10. Bulk Actions
+ * */
 
 export function TableData({
   transactionData,
@@ -44,6 +58,7 @@ export function TableData({
 
   return (
     <ScrollArea className="w-full border rounded-lg shadow-md">
+        <ScrollBar orientation="horizontal" />
       <Table className="min-w-full border-collapse">
         <TableCaption className="text-gray-500 text-sm mt-2">
           Daftar transaksi terbaru Anda.
@@ -69,7 +84,7 @@ export function TableData({
             >
               <TableCell className="py-3 px-4 font-medium">
                 {transaction.order_id}
-              </TableCell>
+              </TableCell>  
               <TableCell className="py-3 px-4">{transaction.order_details?.customer_details.full_name}</TableCell>
               <TableCell className="py-3 px-4 font-semibold">
                 {formatCurrency(transaction.amount)}
