@@ -1,5 +1,5 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { SupabaseService } from 'src/_Utils/supabase.service';
+import { SupabaseService } from '../../_Utils/supabase.service';
 
 @Injectable()
 export class TransactionService {
