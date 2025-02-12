@@ -35,7 +35,7 @@ export default function DetailOrder({ orderId }: { orderId: string }) {
       <DialogContent className="sm:max-w-[1200px]">
           <DialogTitle>Detail Order</DialogTitle>
         <DialogDescription>
-            Detil dari sebuah pesanan
+            {data?.data && `Detil pesanan #${data.data.order_id}`}
         </DialogDescription>
           {isLoading ? (
             <LoadingElement />
