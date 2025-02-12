@@ -44,6 +44,7 @@
     "react-is": "^19.0.0",
     "sanity": "^3.72.1",
     "styled-components": "^6.1.14",
+    "swr": "^2.3.2",
     "tailwind-merge": "^2.6.0",
     "tailwindcss-animate": "^1.0.7",
     "vercel": "^39.3.0",

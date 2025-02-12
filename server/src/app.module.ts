@@ -8,6 +8,7 @@ import { MidtransModule } from './_Modules/midtrans/midtrans.module';
 import { SupabaseService } from './_Utils/supabase.service';
 import { TransactionController } from './_Modules/transaction/transaction.controller';
 import { TransactionModule } from './_Modules/transaction/transaction.module';
+import { OrdersModule } from './_Modules/admin/orders/orders.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { TransactionModule } from './_Modules/transaction/transaction.module';
     MidtransModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TransactionModule,
+    OrdersModule,
   ],
   controllers: [AppController, TransactionController],
   providers: [AppService, SupabaseService],

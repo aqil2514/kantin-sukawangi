@@ -39,13 +39,13 @@ export default async function AdminLayout({
   if (!session?.user || user.role !== "admin") return notFound();
 
   return (
-    <AdminContainer>
-      <AdminSidebar />
-      <div>
-        <AdminNavbar />
+      <AdminContainer>
+        <AdminSidebar />
+        <div>
+          <AdminNavbar />
 
-        {children}
-      </div>
-    </AdminContainer>
+          {children}
+        </div>
+      </AdminContainer>
   );
 }

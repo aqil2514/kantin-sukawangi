@@ -15,11 +15,13 @@ import {
 import { formatCurrency } from "@/lib/utils";
 import TransactionStatusBadge from "./TableStatus";
 import { Button } from "@/components/ui/button";
+import { useEffect } from "react";
+import DetailOrder from "./DetailOrder";
 
-/** 
+/**
  * // TODO : Ini listnya di bawah
- * 1. Harusnya, kalo searchparams lebih banyak daripada jumlah halaman, langsung otomatis atur ke halaman terakhir
- * 2. Detail masih belum ditambah
+ * 1. Harusnya, kalo searchparams lebih banyak daripada jumlah halaman, langsung otomatis atur ke halaman terakhir (DONE)
+ * 2. Detail masih belum ditambah (PROCESS)
  * 3. Ada jeda singkat ketika ganti halaman
  * 4. Masih belum responsive
  * 5. Pilihan "Jumlah Data Per Halaman"
@@ -37,7 +39,7 @@ export function TableData({
 }) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  
+
   // Ambil page dari searchParams, jika tidak ada default ke 1
   const currentPage = Number(searchParams.get("page")) || 1;
   const itemsPerPage = 10;
@@ -47,7 +49,10 @@ export function TableData({
 
   // Ambil data sesuai halaman
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const currentData = transactionData.slice(startIndex, startIndex + itemsPerPage);
+  const currentData = transactionData.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
 
   // Fungsi untuk mengganti halaman dan update searchParams
   const goToPage = (page: number) => {
@@ -56,9 +61,14 @@ export function TableData({
     router.replace(`?${newParams.toString()}`, { scroll: false });
   };
 
+  useEffect(() => {
+    if (currentPage > totalPages)
+      return router.replace(`?page=${totalPages}`, { scroll: false });
+  }, [currentPage, totalPages, router]);
+
   return (
     <ScrollArea className="w-full border rounded-lg shadow-md">
-        <ScrollBar orientation="horizontal" />
+      <ScrollBar orientation="horizontal" />
       <Table className="min-w-full border-collapse">
         <TableCaption className="text-gray-500 text-sm mt-2">
           Daftar transaksi terbaru Anda.
@@ -69,7 +79,9 @@ export function TableData({
           <TableRow>
             <TableHead className="py-3 px-4 text-left">Order ID</TableHead>
             <TableHead className="py-3 px-4 text-left">Nama</TableHead>
-            <TableHead className="py-3 px-4 text-left">Total Transaksi</TableHead>
+            <TableHead className="py-3 px-4 text-left">
+              Total Transaksi
+            </TableHead>
             <TableHead className="py-3 px-4 text-left">Status</TableHead>
             <TableHead className="py-3 px-4 text-center">Aksi</TableHead>
           </TableRow>
@@ -84,8 +96,10 @@ export function TableData({
             >
               <TableCell className="py-3 px-4 font-medium">
                 {transaction.order_id}
-              </TableCell>  
-              <TableCell className="py-3 px-4">{transaction.order_details?.customer_details.full_name}</TableCell>
+              </TableCell>
+              <TableCell className="py-3 px-4">
+                {transaction.order_details?.customer_details.full_name}
+              </TableCell>
               <TableCell className="py-3 px-4 font-semibold">
                 {formatCurrency(transaction.amount)}
               </TableCell>
@@ -93,14 +107,7 @@ export function TableData({
                 <TransactionStatusBadge status={transaction.status} />
               </TableCell>
               <TableCell className="py-3 px-4 text-center">
-                <Button
-                  size="sm"
-                  variant="outline"
-                  className="text-blue-600 border-blue-500 hover:bg-blue-100"
-                  onClick={() => alert(`Detail transaksi: ${transaction.order_id}`)}
-                >
-                  Lihat Detail
-                </Button>
+                <DetailOrder orderId={transaction.order_id} />
               </TableCell>
             </TableRow>
           ))}
@@ -113,7 +120,9 @@ export function TableData({
               Total Keseluruhan:
             </TableCell>
             <TableCell className="py-3 px-4 font-bold text-green-600">
-              {formatCurrency(transactionData.reduce((sum, trx) => sum + trx.amount, 0))}
+              {formatCurrency(
+                transactionData.reduce((sum, trx) => sum + trx.amount, 0)
+              )}
             </TableCell>
             <TableCell></TableCell>
           </TableRow>
