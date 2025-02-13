@@ -4,12 +4,15 @@ import {
   DialogContent,
   DialogDescription,
   DialogFooter,
+  DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import React, { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import DataElement from "./DO_DataElement";
+import Footer from "./DO_Footer";
 
 const fetcher = (url: string) =>
   fetch(url).then((res) => {
@@ -33,18 +36,24 @@ export default function DetailOrder({ orderId }: { orderId: string }) {
         Lihat Detail
       </DialogTrigger>
       <DialogContent className="sm:max-w-[1200px]">
-          <DialogTitle>Detail Order</DialogTitle>
-        <DialogDescription>
-            {data?.data && `Detil pesanan #${data.data.order_id}`}
-        </DialogDescription>
-          {isLoading ? (
-            <LoadingElement />
-          ) : error ? (
-            <ErrorElement />
-          ) : (
-            <DataElement data={data?.data} />
-          )}
-        <DialogFooter></DialogFooter>
+        <DialogHeader className="bg-slate-100 p-4">
+          <DialogTitle>
+            {data?.data && `Oder Id : #${data.data.order_id}`}
+          </DialogTitle>
+          <DialogDescription>
+            {data?.data && `User Id #${data.data.user_id}`}
+          </DialogDescription>
+        </DialogHeader>
+        {isLoading ? (
+          <LoadingElement />
+        ) : error ? (
+          <ErrorElement />
+        ) : (
+          <DataElement data={data?.data} />
+        )}
+        <DialogFooter>
+          <Footer data={data?.data} />
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );
@@ -71,66 +80,4 @@ const ErrorElement = () => {
   );
 };
 
-// TODO : BUAT UI UNTUK INI
-const DataElementIdentity: React.FC<{ data?: Transaction.TransactionDb }> = ({ data }) => {
-    if (!data) return null;
-  
-    return (
-      <div className="grid grid-cols-2 gap-2">
-        <div>
-          <span className="font-semibold">Order ID:</span> {data.order_id}
-        </div>
-        <div>
-          <span className="font-semibold">User ID:</span> {data.user_id}
-        </div>
-      </div>
-    );
-  };
-  
-  const DataElement: React.FC<{ data?: Transaction.TransactionDb }> = ({ data }) => {
-    if (!data) return null;
-    
-    return (
-      <div className="space-y-2">
-        <DataElementIdentity data={data} />
-        <div>
-          <span className="font-semibold">Jumlah:</span> {data.amount.toLocaleString("id-ID")} {data.currency}
-        </div>
-        <div>
-          <span className="font-semibold">Status:</span> {data.status}
-        </div>
-        <div>
-          <span className="font-semibold">Metode Pembayaran:</span> {data.payment_method}
-        </div>
-        <div>
-          <span className="font-semibold">Gateway Pembayaran:</span> {data.payment_gateway}
-        </div>
-        {data.transaction_date && (
-          <div>
-            <span className="font-semibold">Tanggal Transaksi:</span> {new Date(data.transaction_date).toLocaleString("id-ID")}
-          </div>
-        )}
-        {data.confirmation_date && (
-          <div>
-            <span className="font-semibold">Tanggal Konfirmasi:</span> {new Date(data.confirmation_date).toLocaleString("id-ID")}
-          </div>
-        )}
-        {data.status_message && (
-          <div>
-            <span className="font-semibold">Status Message:</span> {data.status_message}
-          </div>
-        )}
-        {data.order_details && (
-          <div>
-            <span className="font-semibold">Detail Pemesan:</span>
-            <div className="ml-4">
-              <div><span className="font-semibold">Nama:</span> {data.order_details.customer_details.full_name}</div>
-              <div><span className="font-semibold">Email:</span> {data.order_details.customer_details.email}</div>
-              <div><span className="font-semibold">Telepon:</span> {data.order_details.customer_details.phone}</div>
-            </div>
-          </div>
-        )}
-      </div>
-    );
-  };
-  
+
