@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/table";
 import TableStatus from "./Forshare/TableStatus";
 import TableDetailOrder from "./Forshare/TableDetailOrder";
-import TableData from "./Forshare/TableOrderId";
+import TableData from "./Forshare/TableData";
 
 interface Props {
   transactionData: Transaction.TransactionDbWa[];

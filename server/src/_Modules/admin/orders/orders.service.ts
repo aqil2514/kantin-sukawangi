@@ -28,4 +28,10 @@ export class OrdersService {
       throw new InternalServerErrorException('Terjadi kesalahan saat mengambil data order');
     }
   }
+
+  async editDetailOrder(clientData:Transaction.OrderClientDataPut){
+    const {newValue, field} = clientData;
+    
+    console.log(clientData);
+  }
 }

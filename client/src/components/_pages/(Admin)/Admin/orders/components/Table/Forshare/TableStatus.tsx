@@ -52,7 +52,7 @@ export default function TableStatus({ status }: TransactionStatusBadgeProps) {
   const statusData = Object.entries(statusLabels);
   return (
     <TableCell>
-      <Select>
+      <Select onValueChange={(e) => alert(`Status akan diubah menjadi ${statusLabels[e]}`)}>
         <SelectTrigger
           className={`px-2 py-1 text-white text-sm font-semibold rounded-md ${statusColors[status]} mx-auto`}
         >

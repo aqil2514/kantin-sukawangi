@@ -42,9 +42,16 @@ export function useGetUser() {
 
   const session = auth.data;
   const user = session?.user as Auth.User;
-  return {user, session};
+  return { user, session };
 }
-
 
 export const toTitleCase = (str: string) =>
   str.replace(/\b\w/g, (char) => char.toUpperCase());
+
+export const wait = (time: number) => {
+  return new Promise<void>((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};

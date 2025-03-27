@@ -73,8 +73,8 @@ namespace Transaction {
     | 'awaiting_payment'; // Menunggu pembayaran dilakukan.
 
   export interface AllTransactionDb {
-      waData: TransactionDbWa[];
-      webData: TransactionDb[];
+    waData: TransactionDbWa[];
+    webData: TransactionDb[];
   }
 
   /**
@@ -196,5 +196,11 @@ namespace Transaction {
     customer_details: CustomerDetails;
     /** Detail barang yang dibeli */
     items: General.CartItem[];
+  }
+
+  export interface OrderClientDataPut {
+    oldValue: string;
+    newValue: string;
+    field: string;
   }
 }

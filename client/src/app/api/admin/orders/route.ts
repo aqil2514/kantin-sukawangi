@@ -40,3 +40,43 @@ export async function GET(req: NextRequest) {
 
   return NextResponse.json(response, { status: 200 });
 }
+
+export async function PUT(req: NextRequest) {
+  const body = await req.json();
+  const field = body.field || getField(body.oldValue);
+  const clientData = {
+    oldValue: body.oldValue,
+    newValue: body.newValue,
+    field,
+  };
+
+  try {
+    const { data } = await axios.put(
+      `${ksEndpoint}/api/admin/orders`,
+      clientData,
+      {
+        headers: {
+          Authorization: apiKeyGuard
+        }
+      }
+    );
+    console.log(data);
+
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { message: "Terjadi kesalahan", error },
+      { status: 400 }
+    );
+  }
+
+  return new Response();
+}
+
+const getField = (oldValue: string) => {
+  if (oldValue.trim().toLowerCase().startsWith("ORD".toLowerCase())) {
+    return "order_id";
+  } else {
+    return "order_details";
+  }
+};
