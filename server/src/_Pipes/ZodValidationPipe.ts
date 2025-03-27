@@ -7,7 +7,6 @@ export class ZodValidationPipe implements PipeTransform {
   transform(value: unknown, metadata: ArgumentMetadata) {
     try {
       // Lakukan validasi menggunakan Zod
-      console.log(value)
       return this.schema.parse(value);
     } catch (error) {
       console.error("Zod Validation Error:", error); // 🔍 Logging error

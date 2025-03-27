@@ -12,7 +12,7 @@ import {
 import { ApiKeyGuard } from '../../../_Guards/api-key-guard';
 import { OrdersService } from './orders.service';
 import { ZodValidationPipe } from 'src/_Pipes/ZodValidationPipe';
-import { clientDataSchema } from './dto/wa-clientData.dto';
+import { ClientData, clientDataSchema } from './dto/wa-clientData.dto';
 
 @Controller('/admin/orders')
 export class OrdersController {
@@ -37,9 +37,19 @@ export class OrdersController {
   @Put()
   @UsePipes(new ZodValidationPipe(clientDataSchema))
   @UseGuards(ApiKeyGuard)
-  async editOrder(@Body() body: Transaction.OrderClientDataPut) {
-    await this.ordersService.editDetailOrder(body);
-    
-    return { msg: 'Under Development' };
+  async editOrder(@Body() body: ClientData) {
+    // TODO : Ini sebenernya udah selesai, tapi kayaknya ada yang perlu diaudit lagi deh. Error handlingnya belum kayaknya.
+    try {
+      const result: General.ApiResponse = {
+        message: 'Data berhasil diubah',
+      };
+
+      await this.ordersService.editDetailOrder(body);
+
+      return result;
+    } catch (error) {
+      console.error(error);
+      return new InternalServerErrorException();
+    }
   }
 }

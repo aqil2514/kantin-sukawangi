@@ -47,6 +47,7 @@ export async function PUT(req: NextRequest) {
   const clientData = {
     oldValue: body.oldValue,
     newValue: body.newValue,
+    orderId: body.orderId,
     field,
   };
 
@@ -56,12 +57,11 @@ export async function PUT(req: NextRequest) {
       clientData,
       {
         headers: {
-          Authorization: apiKeyGuard
-        }
+          Authorization: apiKeyGuard,
+        },
       }
     );
     console.log(data);
-
   } catch (error) {
     console.error(error);
     return NextResponse.json(

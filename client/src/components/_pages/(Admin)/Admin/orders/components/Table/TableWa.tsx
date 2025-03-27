@@ -33,8 +33,8 @@ export default function TableWaData({ transactionData }: Props) {
             const customerName = data.order_details?.customer_details.full_name || "Tidak diisi";
             return(
             <TableRow key={orderId}>
-              <TableData value={orderId} />
-              <TableData value={customerName} />
+              <TableData value={orderId} orderId={orderId} />
+              <TableData value={customerName} orderId={orderId} />
               <TableStatus status={data.status} />
               <TableDetailOrder orderId={orderId} />
             </TableRow>

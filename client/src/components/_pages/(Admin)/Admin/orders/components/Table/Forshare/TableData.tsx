@@ -15,10 +15,17 @@ import { FaCopy, FaEdit, FaTrash } from "react-icons/fa";
 type CurrentElement = React.FC<{
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
   value: string;
+  orderId: string;
   ref: React.RefObject<HTMLFormElement | null>;
 }>;
 
-export default function TableData({ value }: { value: string }) {
+export default function TableData({
+  value,
+  orderId,
+}: {
+  value: string;
+  orderId: string;
+}) {
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
   const valueRef = useRef<null | HTMLSpanElement>(null);
@@ -63,6 +70,7 @@ export default function TableData({ value }: { value: string }) {
         <EditingElement
           setIsEditing={setIsEditing}
           value={value}
+          orderId={orderId}
           ref={editingElementRef}
         />
       )}
@@ -73,9 +81,15 @@ export default function TableData({ value }: { value: string }) {
 type Inputs = {
   oldValue: string;
   newValue: string;
+  orderId: string;
 };
 
-const EditingElement: CurrentElement = ({ setIsEditing, value, ref }) => {
+const EditingElement: CurrentElement = ({
+  setIsEditing,
+  value,
+  orderId,
+  ref,
+}) => {
   const { register, handleSubmit } = useForm<Inputs>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
@@ -117,6 +131,7 @@ const EditingElement: CurrentElement = ({ setIsEditing, value, ref }) => {
       <p>Nilai Lama : {value}</p>
       <p>Nilai Baru :</p>
       <input {...register("oldValue")} type="hidden" value={value} />
+      <input {...register("orderId")} type="hidden" value={orderId} />
       <Textarea
         autoFocus
         {...register("newValue")}
@@ -138,7 +153,7 @@ const EditingElement: CurrentElement = ({ setIsEditing, value, ref }) => {
         disabled={isLoading}
         className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
       >
-        {isLoading ? "Mengirim Data..." :"Ubah"}
+        {isLoading ? "Mengirim Data..." : "Ubah"}
       </Button>
     </form>
   );

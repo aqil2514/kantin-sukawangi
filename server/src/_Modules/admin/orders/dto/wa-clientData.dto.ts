@@ -2,6 +2,7 @@ import { z } from 'zod';
 
 export const clientDataSchema = z
   .object({
+    orderId: z.string().readonly(),
     oldValue: z.string(),
     newValue: z.string().min(1, 'Data baru wajib diisi'),
     field: z.string(),

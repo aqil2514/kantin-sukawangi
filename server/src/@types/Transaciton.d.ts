@@ -197,10 +197,4 @@ namespace Transaction {
     /** Detail barang yang dibeli */
     items: General.CartItem[];
   }
-
-  export interface OrderClientDataPut {
-    oldValue: string;
-    newValue: string;
-    field: string;
-  }
 }
