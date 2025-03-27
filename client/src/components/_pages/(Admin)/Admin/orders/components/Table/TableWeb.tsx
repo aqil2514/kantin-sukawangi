@@ -13,10 +13,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { formatCurrency } from "@/lib/utils";
-import TransactionStatusBadge from "./TableStatus";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
-import DetailOrder from "./DetailOrder";
+import DetailOrder from "../DetailOrder";
+import TableStatus from "./Forshare/TableStatus";
 
 /**
  * // TODO : Ini listnya di bawah
@@ -32,7 +32,7 @@ import DetailOrder from "./DetailOrder";
  * 10. Bulk Actions
  * */
 
-export function TableData({
+export function TableWebData({
   transactionData,
 }: {
   transactionData: Transaction.TransactionDb[];
@@ -103,9 +103,7 @@ export function TableData({
               <TableCell className="py-3 px-4 font-semibold">
                 {formatCurrency(transaction.amount)}
               </TableCell>
-              <TableCell className="py-3 px-4">
-                <TransactionStatusBadge status={transaction.status} />
-              </TableCell>
+              <TableStatus status={transaction.status} />
               <TableCell className="py-3 px-4 text-center">
                 <DetailOrder orderId={transaction.order_id} />
               </TableCell>

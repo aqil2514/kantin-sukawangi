@@ -32,7 +32,7 @@ const SelectAction: React.FC<{
   setValue: React.Dispatch<SetStateAction<ValueState>>;
 }> = ({ setValue }) => {
   return (
-    <Select onValueChange={(e) => setValue(e as ValueState)}>
+    <Select defaultValue="chatWa" onValueChange={(e) => setValue(e as ValueState)}>
       <SelectTrigger className="w-[180px] mb-8">
         <SelectValue placeholder="Tindak Lanjut" />
       </SelectTrigger>

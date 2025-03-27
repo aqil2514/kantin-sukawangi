@@ -1,5 +1,5 @@
 import React from "react";
-import DataElement from "./DO_DataElement";
+import DataElement from "./Data";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 

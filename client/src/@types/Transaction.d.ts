@@ -72,6 +72,11 @@ namespace Transaction {
     | "refund" // Dana transaksi dikembalikan.
     | "awaiting_payment"; // Menunggu pembayaran dilakukan.
 
+  export interface AllTransactionDb {
+    waData: TransactionDbWa[];
+    webData: TransactionDb[];
+  }
+
   /**
    * @interface TransactionDb
    * Representasi data transaksi yang disimpan di basis data.
@@ -148,7 +153,10 @@ namespace Transaction {
     created_at: string;
   };
 
-  export type TransactionDbWaClientData = Omit<TransactionDbWa, "order_id" | "status">;
+  export type TransactionDbWaClientData = Omit<
+    TransactionDbWa,
+    "order_id" | "status"
+  >;
 
   /**
    * Merepresentasikan badan permintaan (request body) yang diperlukan untuk memulai sebuah transaksi.

@@ -1,13 +1,20 @@
 "use client";
-import { TableData } from "./components/Table";
+import { SelectSourceData } from "./components/SelectSource";
+import { TableWebData } from "./components/Table/TableWeb";
+import TableWaData from "./components/Table/TableWa";
 import { useOrderData } from "./Providers";
 
 export default function Order() {
-  const { transactionData } = useOrderData();
+  const { transactionData, sourceData } = useOrderData();
+  const isWeb = sourceData === "web";
+  const isWA = sourceData === "wa";
+  const {webData, waData} = transactionData;
 
   return (
     <div className="p-4">
-        <TableData transactionData={transactionData} />
+      <SelectSourceData />
+        {isWeb && <TableWebData transactionData={webData} />}
+        {isWA && <TableWaData transactionData={waData} /> }
     </div>
   );
 }

@@ -3,12 +3,12 @@ import axios, { isAxiosError } from "axios";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const response: General.ApiResponse<Transaction.TransactionDb> =
-    {} as General.ApiResponse<Transaction.TransactionDb>;
+  const response: General.ApiResponse<Transaction.AllTransactionDb> =
+    {} as General.ApiResponse<Transaction.AllTransactionDb>;
 
   try {
     const { data } = await axios.get<
-      General.ApiResponse<Transaction.TransactionDb>
+      General.ApiResponse<Transaction.AllTransactionDb>
     >(`${ksEndpoint}/api/transaction`, {
       headers: {
         Authorization: apiKeyGuard,

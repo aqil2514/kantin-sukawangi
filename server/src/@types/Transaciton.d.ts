@@ -62,15 +62,20 @@ namespace Transaction {
    * Status transaksi yang memungkinkan.
    */
   export type TransactionStatus =
-    | "nothing" // Tidak ada status apa pun
-    | "pending" // Transaksi menunggu konfirmasi pembayaran.
-    | "settlement" // Transaksi berhasil diselesaikan.
-    | "capture" // Pembayaran telah berhasil ditangkap oleh sistem.
-    | "deny" // Transaksi ditolak.
-    | "cancel" // Transaksi dibatalkan.
-    | "expire" // Transaksi telah kadaluwarsa.
-    | "refund" // Dana transaksi dikembalikan.
-    | "awaiting_payment"; // Menunggu pembayaran dilakukan.
+    | 'nothing' // Tidak ada status apa pun
+    | 'pending' // Transaksi menunggu konfirmasi pembayaran.
+    | 'settlement' // Transaksi berhasil diselesaikan.
+    | 'capture' // Pembayaran telah berhasil ditangkap oleh sistem.
+    | 'deny' // Transaksi ditolak.
+    | 'cancel' // Transaksi dibatalkan.
+    | 'expire' // Transaksi telah kadaluwarsa.
+    | 'refund' // Dana transaksi dikembalikan.
+    | 'awaiting_payment'; // Menunggu pembayaran dilakukan.
+
+  export interface AllTransactionDb {
+      waData: TransactionDbWa[];
+      webData: TransactionDb[];
+  }
 
   /**
    * @interface TransactionDb
@@ -140,7 +145,7 @@ namespace Transaction {
 
   export type TransactionDbWa = Pick<
     TransactionDb,
-    "order_id" | "order_details" | "status" | "amount"
+    'order_id' | 'order_details' | 'status' | 'amount'
   > & {
     /** Pesan tambahan dari customer */
     additional_message?: string;
@@ -148,7 +153,10 @@ namespace Transaction {
     created_at: string;
   };
 
-  export type TransactionDbWaClientData = Omit<TransactionDbWa, "order_id" | "status">;
+  export type TransactionDbWaClientData = Omit<
+    TransactionDbWa,
+    'order_id' | 'status'
+  >;
 
   /**
    * Merepresentasikan badan permintaan (request body) yang diperlukan untuk memulai sebuah transaksi.

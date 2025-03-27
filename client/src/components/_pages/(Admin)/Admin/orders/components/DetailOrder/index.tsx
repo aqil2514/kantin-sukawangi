@@ -11,8 +11,8 @@ import {
 import React, { useState } from "react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import DataElement from "./DO_DataElement";
-import Footer from "./DO_Footer";
+import DataElement from "./Data";
+import Footer from "./Footer";
 
 const fetcher = (url: string) =>
   fetch(url).then((res) => {

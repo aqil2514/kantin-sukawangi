@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import Order from "@/components/_pages/(Admin)/Admin/orders";
-import OrderError from "@/components/_pages/(Admin)/Admin/orders/Errors";
+import OrderError from "@/components/_pages/(Admin)/Admin/orders/components/UX/Errors";
 import OrderProvider from "@/components/_pages/(Admin)/Admin/orders/Providers";
-import OrderSuspense from "@/components/_pages/(Admin)/Admin/orders/Suspense";
+import OrderSuspense from "@/components/_pages/(Admin)/Admin/orders/components/UX/Suspense";
 import { Metadata } from "next";
 import { headers } from "next/headers";
 import { Suspense } from "react";

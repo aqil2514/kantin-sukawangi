@@ -24,7 +24,7 @@ export default function CartProvider({
   children: React.ReactNode;
   data: Page.Cart;
 }) {
-  const [value, setValue] = useState<ValueState>("checkout");
+  const [value, setValue] = useState<ValueState>("chatWa");
   const [items, setItems] = useState<General.CartItem[]>([]);
 
   const contextValue: CartProviderProps = {

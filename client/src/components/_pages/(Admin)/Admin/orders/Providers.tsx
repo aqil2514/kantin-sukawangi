@@ -1,9 +1,13 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { createContext, SetStateAction, useContext, useState } from "react";
+
+export type SourceData = "wa" | "web";
 
 interface OrderProps {
-  transactionData: Transaction.TransactionDb[];
+  transactionData: Transaction.AllTransactionDb;
+  sourceData: SourceData;
+  setSourceData: React.Dispatch<SetStateAction<SourceData>>;
   children: React.ReactNode;
 }
 
@@ -18,8 +22,9 @@ export default function OrderProvider({
   children,
   transactionData,
 }: OrderContextProps) {
+  const [sourceData, setSourceData] = useState<SourceData>("wa")
   return (
-    <OrderContext.Provider value={{ transactionData }}>
+    <OrderContext.Provider value={{ transactionData, setSourceData, sourceData }}>
       {children}
     </OrderContext.Provider>
   );

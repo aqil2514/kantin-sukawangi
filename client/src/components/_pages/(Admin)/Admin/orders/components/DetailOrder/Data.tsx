@@ -1,5 +1,5 @@
-import DataElementCustomer from "./DO_DataElementCustomer";
-import DataElementOrders from "./DO_DataElementOrders";
+import DataElementCustomer from "./DataCustomer";
+import DataElementOrders from "./DataOrders";
 
 const DataElement: React.FC<{ data?: Transaction.TransactionDb }> = ({
     data,
